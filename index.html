@@ -1,71 +1,29 @@
 <!DOCTYPE html>
 <html lang="ru">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Карточки памяти</title>
-    <link
-      href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans&display=swap"
-      rel="stylesheet"
-    />
-    <!-- <link rel="stylesheet" href="https://artembsv.github.io/css/style.css" /> -->
-    <style>
-      html {
-        height: 100%;
-      }
-      body {
-        height: 100%;
-        font-family: "IBM Plex Sans", sans-serif;
-        margin: 0;
-      }
-      img {
-        width: 10%;
-        cursor: pointer;
-      }
-      #root {
-        width: 100%;
-        height: 100%;
-        max-width: 1240px;
-        margin: auto;
-        background: #f7f7f7;
-        padding: 15px;
-      }
-      div#root-m {
-        height: 100%;
-        width: 100%;
-        max-width: 800px;
-        margin: auto;
-      }
-    </style>
-  </head>
-  <body style="margin:0">
-    <div id="root">
-      <div id="header">
-        <div id="header-1">Вопросов <span>15</span> шт.</div>
-        <div id="header-2">Вопросов <span>5</span> шт.</div>
-      </div>
 
-      <div id="navigate-1">
-        <img src="https://artembsv.github.io/img/up.webp" alt="" />
-        <img src="https://artembsv.github.io/img/down.webp" alt="" />
-      </div>
-      <div id="footer">Отвечено <span>5</span> шт.</div>
+<head>
+  <meta charset="UTF-8" />
+  <title>Карточки памяти</title>
+  <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body style="margin:0">
+  <div id="root">
+    <div id="header">
+      <div id="header-1">Вопросов <span>15</span> шт.</div>
+      <div id="header-2">Вопросов <span>5</span> шт.</div>
     </div>
-    <script
-      src="https://artembsv.github.io/js/jquery-3.4.1.min.js"
-      type="text/javascript"
-      charset="utf-8"
-    ></script>
-    <script
-      src="https://artembsv.github.io/js/flowtype.js"
-      type="text/javascript"
-      charset="utf-8"
-    ></script>
-    <script src="js/script.js" type="text/javascript" charset="utf-8"></script>
-    <script>
-      $(document).on("ready", () => {
-        console.log("sadf");
-        $("#header").flowtype({ fontRatio: 30 });
-      });
-    </script>
-  </body>
+
+    <div id="navigate-1">
+      <img src="img/up.webp" alt="" />
+      <img src="img/down.webp" alt="" />
+    </div>
+    <div id="footer" style="max-width: 1210px;">Отвечено <span>5</span> шт.</div>
+  </div>
+  <script src="js/jquery-3.4.1.min.js" type="text/javascript" charset="utf-8"></script>
+  <script src="js/flowtype.js" type="text/javascript" charset="utf-8"></script>
+  <script src="js/script.js" type="text/javascript" charset="utf-8"></script>
+</body>
+
 </html>
