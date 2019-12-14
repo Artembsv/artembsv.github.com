@@ -7,14 +7,13 @@
       href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="https://artembsv.github.io/css/style.css" />
+    <!-- <link rel="stylesheet" href="https://artembsv.github.io/css/style.css" /> -->
     <style>
       html {
         height: 100%;
       }
       body {
         height: 100%;
-        font-size: 18px;
         font-family: "IBM Plex Sans", sans-serif;
         margin: 0;
       }
@@ -40,18 +39,16 @@
   </head>
   <body style="margin:0">
     <div id="root">
-      <div id="root-m">
-        <div id="header">
-          <div id="header-1">Вопросов <span>15</span> шт.</div>
-          <div id="header-2">Вопросов <span>5</span> шт.</div>
-        </div>
-
-        <div id="navigate-1">
-          <img src="https://artembsv.github.io/img/up.webp" alt="" />
-          <img src="https://artembsv.github.io/img/down.webp" alt="" />
-        </div>
-        <div id="footer">Отвечено <span>5</span> шт.</div>
+      <div id="header">
+        <div id="header-1">Вопросов <span>15</span> шт.</div>
+        <div id="header-2">Вопросов <span>5</span> шт.</div>
       </div>
+
+      <div id="navigate-1">
+        <img src="https://artembsv.github.io/img/up.webp" alt="" />
+        <img src="https://artembsv.github.io/img/down.webp" alt="" />
+      </div>
+      <div id="footer">Отвечено <span>5</span> шт.</div>
     </div>
     <script
       src="https://artembsv.github.io/js/jquery-3.4.1.min.js"
@@ -63,10 +60,12 @@
       type="text/javascript"
       charset="utf-8"
     ></script>
-    <script
-      src="https://artembsv.github.io/js/script.js"
-      type="text/javascript"
-      charset="utf-8"
-    ></script>
+    <script src="js/script.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+      $(document).on("ready", () => {
+        console.log("sadf");
+        $("#header").flowtype({ fontRatio: 30 });
+      });
+    </script>
   </body>
 </html>
