@@ -10,11 +10,15 @@ img {
   width: 10%;
   cursor: pointer;
 }
-#root {
+.root {
   width: 100%;
   height: 100%;
   max-width: 1240px;
   margin: auto;
   background: #f7f7f7;
   padding: 15px;
+}
+
+.w1210{
+  max-width: 1210px;
 }
