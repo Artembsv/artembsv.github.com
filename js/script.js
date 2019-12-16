@@ -1,30 +1,8 @@
-<!DOCTYPE html>
-<html lang="ru">
+function sgo(){
+    $('.w1210.f16').css('font-size', (parseInt($('.w1210').css('width')) / (1210 / 16)) + 'px') // font-size: 16px
+}
+sgo()
+$(window).resize(function(){
+    sgo()
+})
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Карточки памяти</title>
-  <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css" />
-</head>
-
-<body style="margin:0">
-  <div class="root">
-    <div class="header w1210 f16">
-      <div class="header-1">Вопросов <span>15</span> шт.</div>
-      <div class="header-2">Вопросов <span>5</span> шт.</div>
-    </div>
-
-    <div class="navigate-1">
-      <img src="img/up.webp" alt="" />
-      <img src="img/down.webp" alt="" />
-    </div>
-    <div class="footer w1210 f16">Отвечено <span>5</span> шт.</div>
-  </div>
-  <script src="js/jquery-3.4.1.min.js" type="text/javascript" charset="utf-8"></script>
-  <script src="js/script.js" type="text/javascript" charset="utf-8"></script>
-</body>
-
-</html>
