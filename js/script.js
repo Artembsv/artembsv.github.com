@@ -1,19 +1,30 @@
-    $("#header").flowtype({ fontRatio: 30 });
-// let f = parseInt($('#footer').css('font-size'))
-// console.log('f - ' + f );
-// let fmax = parseInt($('#footer').css('max-width'))
-// console.log('fmax - ' + fmax );
-// let fo = fmax / f
-// console.log('fo - ' + fo );
+<!DOCTYPE html>
+<html lang="ru">
 
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-// $(window).resize(function(){
-//     let fwid = parseInt($('#footer').css('width'))
-//     console.log('fwid - ' + fwid );
-//     let fo2 = fwid / fo
-//     console.log('fo2 - ' + fo2 );
-//     $('#footer').css('font-size',fo2 + 'px')
-// });
+  <title>Карточки памяти</title>
+  <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
 
-    // console.log($('#footer').css('font-size'));
-    // document.querySelector("#footer").
+<body style="margin:0">
+  <div class="root">
+    <div class="header w1210 f16">
+      <div class="header-1">Вопросов <span>15</span> шт.</div>
+      <div class="header-2">Вопросов <span>5</span> шт.</div>
+    </div>
+
+    <div class="navigate-1">
+      <img src="img/up.webp" alt="" />
+      <img src="img/down.webp" alt="" />
+    </div>
+    <div class="footer w1210 f16">Отвечено <span>5</span> шт.</div>
+  </div>
+  <script src="js/jquery-3.4.1.min.js" type="text/javascript" charset="utf-8"></script>
+  <script src="js/script.js" type="text/javascript" charset="utf-8"></script>
+</body>
+
+</html>
