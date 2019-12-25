@@ -1,4 +1,4 @@
-import test from 'test';
+import test from './test.js';
 test()
 // function sgo(){
 //     $('.w1210.f16').css('font-size', (parseInt($('.w1210').css('width')) / (1210 / 16)) + 'px') // font-size: 16px
