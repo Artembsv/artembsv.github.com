@@ -199,7 +199,8 @@ input::-webkit-inner-spin-button {
     height: 100%;
     left: 0px;
     top: 0;
-    animation: animate_motion 500s 0s both infinite;
+    animation: animate_motion 300s 0s infinite;
+    animation-iteration-count: infinite;
 }
 
 label.form-label {
