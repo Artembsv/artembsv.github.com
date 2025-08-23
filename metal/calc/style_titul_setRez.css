@@ -1,0 +1,217 @@
+
+#kn_burger_left  {display: none;}
+
+.transporants {height:20px; color:#777; text-align:left; margin-top:30px; position:absolute; margin-left:33px; text-transform: none; width: 500px;}
+#top_main_div {width:75%; height: 60px;  margin-top:56px; }
+
+#levels2, #levels3,
+#levels1 {display:block;}
+
+#treugl {position:absolute; width: 16px; height:16px; top:-11px; right:18px;}
+
+@media  (min-width: 0px) and (max-width: 384px)
+{ 
+  
+   #kn_burger_left  {display: block;}
+   #logo {margin-left:20px;  }
+   #main_page {max-width: 767px; width: 90%; min-width: 320px;}
+   #top_bebel_box {display: none;} 
+   .infoHowWork {width: 100%;}
+   #info_white_box {padding: 39.8px;}
+   #InfoSt1 {display: none;}
+   #InfoSt_1280 {display: none;}
+   #InfoSt_768 {display: none;}
+   #InfoSt_320 {display: block;}
+   
+   #entry_textMenu {display: none;}
+
+   #kategol_items_big {display: none;}
+   #kategol_items_med {display: none;}
+   #incom_items_big {display: none;}
+   #incom_items_med {display: none;}
+   #best_incom2 {display: none;}
+   #best_incom1 {width: 85%; margin-top: 20px;}
+
+   #cntrl_body {width: 94%;}
+   #top_main_div {display: none;}
+   #seach_box_rings {width: 85%; margin-top: 20px;}
+   #seach_adv {width: 100%;}
+   #kn_input_form_Send {margin-top: 30px; width: 100%; margin-left: 0px;}
+
+   #input_form_Send {width: 100%;}
+   #first_footer_box {display: none;}
+
+
+  
+   .footer_center {max-width: 767px; width: 90%; min-width: 320px;}
+
+
+   .top_select_menu {width: 43%; margin-left: 7%; line-height: 0.9; padding-top: 10px; margin-top: -60px;}
+   .top_free_menu {width: 43%; margin-left: 51%; line-height: 0.9; padding-top: 10px;  margin-top: -60px;}
+
+
+
+   .strelkaR {display: none;}
+   .h1_main  {width:256px; height: 56px; margin-top:70px;
+              font-size:24px; font-weight:700; line-height: 28px; 
+              text-align: center; color:#383838;
+             }
+  .text_main {width:93%; height: 63px; margin-top:20px; max-width: 420px;
+            font-size:14px; font-weight:normal; line-height: 21px; 
+            text-align: center; color:#383838; text-align: ;
+              } 
+ #treugl {right:18px;} 
+
+}
+
+@media  (min-width: 385px) and (max-width: 767px)
+{  
+    /* мобильники */ 
+   #kn_burger_left  {display: block;}
+   #logo {margin-left:20px;  }
+   #main_page {max-width: 767px; width: 90%; min-width: 320px;}
+   #top_bebel_box {display: none;} 
+   .infoHowWork {width: 100%;}
+   #info_white_box {padding: 39.8px;}
+   #InfoSt1 {display: none;}
+   #InfoSt_1280 {display: none;}
+   #InfoSt_768 {display: none;}
+   #InfoSt_320 {display: block;}
+   
+   #entry_textMenu {display: none;}
+
+
+   #kategol_items_big {display: none;}
+   #kategol_items_med {display: none;}
+   #incom_items_big {display: none;}
+   #incom_items_med {display: none;}
+   #best_incom2 {display: none;}
+   #best_incom1 {width: 85%; margin-top: 20px;}
+
+   #cntrl_body {width: 94%;}
+   #top_main_div {display: none; }
+   #seach_box_rings {width: 85%; margin-top: 20px;}
+   #seach_adv {width: 100%;}
+   #kn_input_form_Send {margin-top: 30px; width: 100%; margin-left: 0px;}
+
+   #input_form_Send {width: 100%;}
+   #first_footer_box {display: none;}
+   
+
+
+  
+   .footer_center {max-width: 767px; width: 90%; min-width: 320px;}
+
+
+   .top_select_menu {width: 43%; margin-left: 7%; line-height: 0.9; padding-top: 10px; margin-top: -60px;}
+   .top_free_menu {width: 43%; margin-left: 51%; line-height: 0.9; padding-top: 10px;  margin-top: -60px;}
+
+
+
+   .strelkaR {display: none;}
+   .h1_main  {width:256px; height: 56px; margin-top:70px;
+              font-size:24px; font-weight:700; line-height: 28px; 
+              text-align: center; color:#383838;
+             }
+  .text_main {width:93%; height: 63px; margin-top:20px; max-width: 420px;
+            font-size:14px; font-weight:normal; line-height: 21px; 
+            text-align: center; color:#383838; text-align: ;
+              } 
+
+   #last_display {display: none;}
+   #levels1 {display:none;}  
+   #treugl {right:25px;}  
+
+
+}
+
+ 
+
+@media  (min-width: 768px) and (max-width: 1279px) { 
+    /* планшеты */
+    #logo {margin-left:60px; }
+    #kn_burger_left  {display: block; margin-left: -15px; z-index: 1000;}
+    
+    #main_page {min-width: 768px; max-width: 1279px;  width: 90%; }
+    #top_bebel_box {display: none;}
+    .infoHowWork {width: 98%;}
+    #info_white_box {padding: 59px;}
+    #InfoSt1 {display: none;}
+    #InfoSt_1280 {display: none;}
+    #InfoSt_768 {display: block;}
+    #InfoSt_320 {display: none;}
+
+    #kategol_items_big {display: none;}
+    #kategol_items_small {display: none;}
+    #incom_items_big {display: none;}
+    #incom_items_small {display: none;}
+
+
+    #cntrl_body {width: 100%;}
+    #top_main_div {display: block; height:5px;}
+    
+    #first_footer_box {display: none;}
+    .footer_vert_div {width: 15%;padding-left: 4.5%;}
+    .footer_center {min-width: 768px; max-width: 1279px;  width: 90%; }
+
+    .top_select_menu {width:324px; margin-left: 0px; line-height: 0.9; padding-top: 10px; margin-top: -60px;}
+   .top_free_menu {width: 324px; margin-left: 344px; line-height: 0.9; padding-top: 10px; margin-top: -60px;}
+
+
+    .strelkaR {display: none;}
+    .h1_main {width:384px; height: 84px; margin-top:70px;
+      font-size:36px; font-weight:700; line-height: 42.19px; text-align: center; color:#383838;
+     }
+
+    .text_main {width:411px; height: 54px; margin-top:20px;
+                font-size:18px; font-weight:normal; line-height: 27px; 
+                text-align: center; color:#383838;} 
+    #footer_mob {display: none;}
+    #last_display {display: none;}   
+    #levels2,
+    #levels1 {display:none;}
+    #treugl {right:60px;}
+            
+
+}
+
+
+@media  (min-width: 1280px) 
+{
+    /* компьютеры */
+    #logo {margin-left:60px;}
+    #main_page {max-width:1280px;}
+    #top_bebel_box {display: block;}
+    .infoHowWork {width: 1160px;}
+    #info_white_box {padding: 59px;}
+    #InfoSt_1280 {display: block;}
+    #InfoSt_768 {display:  none;}
+    #InfoSt_320 {display: none;}
+    #kn_burger  {display: none;}
+
+   #kn_burger_left  {display: block; margin-left: -15px; z-index: 1000;}
+    
+    
+    #kategol_items_small {display: none;}
+    #kategol_items_med {display: none;}
+    #incom_items_small {display: none;}
+    #incom_items_med {display: none;}
+    #last_footer_box{display: none;}
+
+    #cntrl_body {width: 100%;}
+    #footer_mob {display: none;}
+    .footer_vert_div {width: 14%;padding-left: 1%;}
+
+    .h1_main {width:384px; height: 84px; margin-top:70px;
+      font-size:36px; font-weight:700; line-height: 42.19px; text-align: center; color:#383838;
+     }
+
+    .text_main {width:411px; height: 54px; margin-top:20px;
+                font-size:18px; font-weight:normal; line-height: 27px; 
+                text-align: center; color:#383838;} 
+    
+    #levels2, #levels3,
+    #levels1 {display:none;}
+    #treugl {right:18px;}
+}
+

@@ -1,0 +1,136 @@
+function send_set_menu(dip)
+{
+    set_favorits(0); set_my_otclics(0); 
+    location.href='/'+dip;
+    resize_begin();
+}
+
+ $("a[rel=example_group1]").fancybox({
+         "padding" : 3, // отступ контента от краев окна
+         "imageScale" : false, // Принимает значение true - контент(изображения) масштабируется по размеру окна, или false - окно вытягивается по размеру контента. По умолчанию - TRUE
+         "zoomOpacity" : false,  // изменение прозрачности контента во время анимации (по умолчанию false)
+         "zoomSpeedIn" : 3000, // скорость анимации в мс при увеличении фото (по умолчанию 0)
+         "zoomSpeedOut" : 3000,  // скорость анимации в мс при уменьшении фото (по умолчанию 0)
+         "zoomSpeedChange" : 3000, // скорость анимации в мс при смене фото (по умолчанию 0)
+         "frameWidth" : 1700,  // ширина окна, px (425px - по умолчанию)
+         "frameHeight" : 600, // высота окна, px(355px - по умолчанию)
+         "overlayShow" : true, // если true затеняят страницу под всплывающим окном. (по умолчанию true). Цвет задается в jquery.fancybox.css - div#fancy_overlay 
+         "overlayOpacity" : 0.8,  // Прозрачность затенения  (0.3 по умолчанию)
+         "hideOnContentClick" :false, // Если TRUE  закрывает окно по клику по любой его точке (кроме элементов навигации). Поумолчанию TRUE   
+         "centerOnScroll" : false, // Если TRUE окно центрируется на экране, когда пользователь прокручивает страницу           }
+         "cyclic": true
+});
+
+
+ // Проверяем, что устройство - iPhone или iPod и используется браузер Safari   ?>
+    if (/iPhone|iPod/.test(navigator.userAgent) && /Safari/.test(navigator.userAgent)) 
+    {
+         // Код для Safari на iPhone 
+         // Добавляем метатег viewport 
+        var viewportMetaTag = document.createElement('meta');
+        viewportMetaTag.name = 'viewport';
+        viewportMetaTag.content = 'height=device-height,width=360,user-scalable=yes';
+        document.head.appendChild(viewportMetaTag);
+        // Предотвращаем масштабирование событием gesturestart
+        document.addEventListener('gesturestart', function (e) {
+            e.preventDefault();
+        });
+    } 
+    else 
+    {
+          // Код для других браузеров или устройств
+         // Добавляем метатег viewport с шириной по умолчанию
+        var viewportMetaTag = document.createElement('meta');
+        viewportMetaTag.name = 'viewport';
+        viewportMetaTag.content = 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no';
+        document.head.appendChild(viewportMetaTag);
+        // Предотвращаем масштабирование событием gesturestart
+        document.addEventListener('gesturestart', function (e) {
+            e.preventDefault();
+        });
+    } 
+
+
+
+
+  function load_burder()
+    {
+        var tag=$("#kn_burger").attr("tag")-0;
+        $('#titul_topItems_menu_left').hide();
+        $('#kabinet_topItems_menu').hide();
+        if (tag==0)
+        {    
+          $('#titul_topItems_menu').show();
+          $("#kn_burger").attr("tag",'1');
+        }  
+        else
+        {
+          $('#titul_topItems_menu').hide();
+          $("#kn_burger").attr("tag",'0');
+        }
+    }
+
+
+
+    function load_burder_left()
+    {   
+        $('#titul_topItems_menu').hide();
+        $("#click_menu").attr("tag",'0');
+        $('#kabinet_topItems_menu').hide();
+        $("#kn_burger").attr("tag",'0');
+
+        var tag=$("#kn_burger_left").attr("tag")-0;
+        if (tag==0)
+        {    
+          $('#kabinet_topItems_menu').hide();
+          $('#titul_topItems_menu').css('left','40px');
+          $('#titul_topItems_menu_left').css('padding-left','0px')
+          $('#titul_topItems_menu_left').css('padding-right','34px')
+          $('#titul_topItems_menu_left').css('cext-align','center'); 
+          $('#titul_topItems_menu_left .line_clear').css('display','none');
+          $('#titul_topItems_menu_left').show();
+          $("#kn_burger_left").attr("tag","1");
+        }  
+        else
+        {
+          $('#titul_topItems_menu_left').hide();
+          $("#kn_burger_left").attr("tag",'0');
+        }
+    }
+
+
+
+  $(document).mouseup(function (e) 
+  {
+    var a=$.trim(e.target.src)+'';
+    var yes=0;
+    if (a>'') yes=a.indexOf('burger.svg');
+
+
+    var container = $("#titul_topItems_menu");
+    if (container.has(e.target).length === 0)
+    {
+        var b=$("#kn_burger").attr("tag")-0;
+        if (!yes)
+        {    
+         $("#kn_burger").attr("tag",'0');
+         container.hide();
+        } 
+    }
+
+
+
+    var container1 = $("#titul_topItems_menu_left");
+    if (container1.has(e.target).length === 0)
+    {
+
+        var b=$("#kn_burger_left").attr("tag")-0;
+        if (!yes)
+        {    
+         $("#kn_burger_left").attr("tag",'0');
+         container1.hide();
+        } 
+
+    }
+
+});

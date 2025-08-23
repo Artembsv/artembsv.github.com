@@ -1,0 +1,67 @@
+.h1_about {text-align:center; font-size: 50px; padding: 25px; font-weight:700;font-family: 'ProximaB';}
+  .desc_about {text-align:left; font-size: 17px;line-height:22px; font-family: 'Roboto';}
+  .cls_about  {clear:both; height:20px; }
+  .cls  {clear:both;}
+  .imges_about {max-width:100px;}
+
+
+  .foto_rec {width:20%; float:left; margin-top:40px;}
+  .text_rec {width:67%; float:left; text-align:left; margin-top:20px;}
+  .cls_line  {clear:both; border-bottom:1px #ccc solid; }
+  .text_element,
+  .about_element {float:left; width:30%; text-align:center; margin-left:3%; border-radius:10px;  min-height:300px; margin-top:3%;
+                  background-color:#fff;box-shadow: 0px 10px 22px rgba(0, 0, 0, 0.3); border:1px #ccc  solid; }
+  .about_element .icon_about {border-radius: 10px; background-color:#f3f3f3; min-height:50px; padding:30px; min-height:100px;}
+  .about_element img {max-width:130px; width:65%;}
+
+  .about_element .desc_about {background-color:#fff; min-height: 60px; padding:20px; text-decoration:none; height:150px; }
+  .about_element .desc_blokline {background-color:#fff;  padding:20px; text-decoration:none;; }
+
+
+  .about_element  .h5_about {color: #000; font-size: 22px; text-align: center; font-weight: 400;  padding-bottom: 15px;}
+  .about_a {text-decoration:none; color:#000;}
+  .left_menu {width:75%; padding:10px; float:left; line-height:0.9; height:30px;
+              display:flex; display: flex; align-items: center;
+
+              }
+  .right_menu {float:right;width:5%;padding:10px; margin-top:3px; text-align:right;}
+
+  .hide_txtblock {cursor:pointer; padding-left:20px;padding-right:30px;   display:none; text-align:justify;}
+  .str_menu   {cursor:pointer; }
+
+
+  @media  (min-width: 0px) and (max-width: 384px)
+  { /* мобильные */
+   .about_element  { width:100%; margin-left:0%; margin-top:5%; padding;0px;}
+   .about_element .desc_about {font-size:14px; line-height:1.4;}
+   .about_element  .h5_about {color: #000; font-size: 16px; text-align: center; font-weight: 500;  padding-bottom: 13px;}
+   .h1_about {font-size: 40px;}
+   .foto_rec {margin-top:20px; float:none; clear:both; width:100%;}
+   .text_rec {width:100%; font-size:16px;}
+    #info_white_box {padding:5px; padding-left:18px; padding-bottom:15px;}
+  }
+
+  @media  (min-width: 385px) and (max-width: 767px)
+  { 
+     /* планшеты мылые*/
+    .about_element  { width:95%; margin-left:3%; margin-top:5%;}
+    .about_element .desc_about {font-size:14px; line-height:1.2;}
+    .foto_rec {margin-top:20px; float:none; clear:both; width:100%;}
+    .text_rec {width:100%; font-size:18px;}
+    #info_white_box {padding:15px;}
+
+    
+  }
+
+  @media  (min-width: 768px) and (max-width: 1279px) 
+  { 
+    /* планшеты */
+  .about_element  { width:42%; margin-left:5%; margin-top:5%;}
+  .about_element  .h5_about {color: #000; font-size: 16px; text-align: center; font-weight: 400;  padding-bottom: 5px;}
+  }
+   
+  @media  (min-width: 1280px) 
+  {  /* большой экран */
+   
+      
+  }

@@ -1,0 +1,231 @@
+@font-face {
+    font-family: 'FontName';
+    src: url(./font/font.ttf);
+}
+
+body {
+    margin: 0;
+    font-family: 'FontName';
+}
+
+.container-form {
+    padding: 2rem 1rem;
+    position: relative;
+}
+
+.wrapper-form {
+    margin: 0 auto;
+    max-width: 400px;
+    position: relative;
+}
+
+.wrapper-form__title {
+    text-align: center;
+    margin: 1rem auto;
+}
+
+.form-control {
+    color: #111111;
+}
+
+.wrapper-button-amount {
+    margin: 1rem 0;
+}
+
+.wrapper-map {
+    height: 10rem;
+    width: 100%;
+}
+
+.wrapper-cost {
+    margin: 0 0 1rem 0;
+
+}
+
+.check-phone {
+    display: block;
+}
+
+.container-cost-distance {
+    display: flex;
+    flex-direction: column;
+    border-radius: 1rem;
+
+    word-break: keep-all;
+    padding: 1rem 2rem;
+    background-color: #ff3600;
+}
+
+.wrapper-cost__err {
+    color: red;
+    font-weight: bold;
+}
+
+.spinner-border {
+    display: none;
+    width: 30px;
+    height: 30px;
+}
+
+.active-spinner {
+    display: inline-block;
+}
+
+.date-group {}
+
+.date-group__wrapper {
+    position: relative;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.form-control-date {
+    color: white;
+}
+
+.date-text {
+    position: absolute;
+    left: 1rem;
+}
+
+input:focus {
+    outline: none;
+}
+
+input[type=date]:-webkit-datetime-edit {
+    color: rgb(255, 255, 255) !important;
+}
+
+input[type=date]:required:invalid::-webkit-datetime-edit {
+    color: transparent;
+}
+
+input[type=date]:focus::-webkit-datetime-edit {
+    color: rgb(255, 255, 255) !important;
+}
+
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0;
+    /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+.message-about-send {
+    display: none;
+    color: #64cc6e;
+}
+
+.message-about-send.successfully {
+    display: block;
+}
+
+.message-about-send.err {
+    display: block;
+    color: red;
+}
+
+#form-for-calculation .form-group,
+#form-for-sent .form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+#form-for-calculation .form__input,
+#form-for-sent .form__input {
+    width: unset;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 18px;
+    border: 1px solid black;
+}
+
+#form-for-calculation .wrapper-button-amount,
+#form-for-sent .wrapper-button-amount {
+    display: flex;
+    justify-content: center;
+}
+
+.invalid-feedback {
+    display: block;
+    opacity: 0;
+    transition: .5s;
+    width: 100%;
+    margin-top: .25rem;
+    font-size: .875em;
+    color: #dc3545;
+}
+
+#form-for-calculation .form-top__button,
+#form-for-sent .form-top__button {
+    padding: 0 10px;
+    font-family: 'FontName';
+    font-size: 18px;
+    box-shadow: 3px 3px 5px #333333;
+    cursor: pointer;
+}
+
+#form-for-calculation input,
+#form-for-sent input {
+    text-transform: unset;
+    font-size: 18px;
+}
+
+#form-for-sent textarea {
+    padding: 10px 15px;
+    text-transform: unset;
+    width: unset !important;
+}
+
+#foncalc {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    opacity: .7;
+    background: url(/calc/js/adresonmap/fon.webp);
+    background-size: cover;
+    background-position-x: center;
+}
+
+.foncalc2 {
+    background: url(/calc/js/adresonmap/texture.png);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0px;
+    top: 0;
+    animation: animate_motion 300s 0s infinite;
+    animation-iteration-count: infinite;
+}
+
+label.form-label {
+    margin-bottom: 2px;
+}
+
+@keyframes animate_motion {
+
+    0%,
+    20% {
+        transform: translate3d(0, 0, 0);
+    }
+
+    10%,
+    14%,
+    18%,
+    2%,
+    6% {
+        transform: translate3d(-7px, 0, 0);
+    }
+
+    12%,
+    16%,
+    4%,
+    8% {
+        transform: translate3d(7px, 0, 0);
+    }
+}

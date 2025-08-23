@@ -1,0 +1,2699 @@
+var Timer = function (interval, action) {
+    var time = +new Date();
+    function run() {
+        var newTime = +new Date();
+        if (newTime-time >= interval) {
+            action();
+            time = newTime;
+        }
+        setTimeout(run, 0);
+    }
+    this.start = run;
+};
+
+
+
+var timer_present = new Timer(50000, present); 
+timer_present.start();
+
+
+
+
+
+function send_messege_lk(id, id_otclick,vid)
+{
+    // messchat - чат
+    var key_tek=$("#key_tek").val();
+    var txt=$.trim($("#txt_mend_mess").val());
+
+    if (txt.length==0)
+    {
+        $("#window_otclick").css("border",'1.5px red solid');
+        mess("Заполните поле сообщения");
+    }  
+    else
+    {
+           $("#window_otclick").css("border",'1.5px #ccc solid'); 
+           $("#send_char_icon").hide();
+           $("#wait_icon").show();
+           var id_otv=$(".drop_boxs").attr("tag")-0; 
+           if (id_otv=='NaN' || !id_otv ) id_otv=0;
+           $.post("/models/orders/send_messege.php", {id:id,txt:txt,id_otclick:id_otclick, vid:vid,id_otv:id_otv, key_tek:key_tek}
+                 ,function(data)
+           {   var yes=parseInt(data);
+//            console.log(data);
+              if (yes>0)
+              {  
+               // console.log(data);
+                //location.reload(); //one_group_messages(id,id_otclick);
+                load_chat_box(id_otclick);
+                $("#send_char_icon").show();
+                $("#wait_icon").hide();
+                $("#txt_mend_mess").val('');
+                drop_otv();
+
+              }  
+              else
+              {  
+                mess("Возникли проблемы с отправкой. Повторите");
+                $("#send_char_icon").show();
+                $("#wait_icon").hide();
+              }  
+                
+                
+           });
+    }  
+
+}
+
+function send_service()
+{
+     var se=$.trim($("#seach_main_str").val());
+     $.post("/inc/set_session_semain.php",{se:se},function(data)
+     {
+       location.href="/services";
+     });
+
+
+
+}
+
+function  send_order_addstank(id_stank)
+{
+   $.post("/public/stankservice_one_show/dip_add_session_order_addstank.php",{id_stank:id_stank},function(dat)
+   {
+      //  console.log(dat);
+       location.href="/orders/additem";   
+   });
+
+}
+
+function  send_order_addusl(id_usl)
+{
+   $.post("/public/service_one_show/dip_add_session_order_addusl.php",{id_usl:id_usl},function(dat)
+   {
+      //  console.log(dat);
+       location.href="/orders/additem";   
+   });
+
+}
+
+
+function present()
+{ 
+  $.post("/inc/ajax_present.php");
+}
+
+$(document).ready(function()
+{
+  resize_begin();
+  present();
+});    
+
+$(window).scroll(function() 
+{
+  if  ($(window).scrollTop()>=$(window).height()/2) 
+      $("#top_up").show();
+  else
+      $("#top_up").hide();  
+});      
+
+
+
+function generateSitemap() 
+{
+    const statusDiv = document.getElementById('status');
+    statusDiv.innerText = 'Создание карты сайта...';
+
+    fetch('generate_sitemap.php', 
+    {
+        method: 'POST'
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.text();
+        } else {
+            throw new Error('Ошибка при создании карты сайта');
+        }
+    })
+    .then(data => {
+        statusDiv.innerText = data || 'Карта сайта успешно создана!';
+    })
+    .catch(error => {
+        statusDiv.innerText = `Ошибка: ${error.message}`;
+    });
+}
+
+function change_admin_orders()
+{
+     var set_adm=$("#admin_sendemlorders").val();
+     $.post("/inc/users/admin_sendemlorders.php",{set_amd:set_adm},function(data)
+     {
+     }); 
+}
+
+function validDate(dt_input, dt_min) 
+{
+    console.log(dt_input,dt_min);
+            // Проверка формата даты
+            var datePattern = /^(\d{2})\.(\d{2})\.(\d{4})$/;
+            var matchInput = dt_input.match(datePattern);
+            var matchMin = dt_min.match(datePattern);
+            
+            if (!matchInput || !matchMin) {
+                return 0; // Неверный формат даты
+            }
+            
+            // Парсим даты
+            var dayInput = parseInt(matchInput[1], 10);
+            var monthInput = parseInt(matchInput[2], 10) - 1; // Месяцы в JavaScript 0-11
+            var yearInput = parseInt(matchInput[3], 10);
+            
+            var dayMin = parseInt(matchMin[1], 10);
+            var monthMin = parseInt(matchMin[2], 10) - 1;
+            var yearMin = parseInt(matchMin[3], 10);
+            
+            // Проверка на корректность значений дня и месяца
+            if (monthInput < 0 || monthInput > 11 || dayInput < 1 || dayInput > 31) 
+            {
+                return 0;
+            }
+            
+            // Создаем дату для проверки
+            var dateInput = new Date(yearInput, monthInput, dayInput);
+            var dateMin = new Date(yearMin, monthMin, dayMin);
+            
+            // Проверка на допустимость дня в месяце (например, 30 февраля недопустимо)
+            if (dateInput.getDate() !== dayInput || dateInput.getMonth() !== monthInput || dateInput.getFullYear() !== yearInput) 
+            {
+                return 0;
+            }
+            
+            // Проверка на ограничение даты
+            if (dateInput < dateMin) {
+                return 0; // Дата раньше минимальной
+            }
+            
+            return 1; // Дата валидна и соответствует ограничениям
+ }
+
+
+function AntiLink(text) 
+{
+    // Регулярное выражение для поиска URL с протоколами (http, https, ftp, file) или без них (начинающихся с //)
+    var pattern = /\b(?:https?|ftp|file):\/\/[^\s]+|\/\/[^\s]+/i;
+
+    // Если найдена ссылка, возвращаем 1, иначе 0
+    return pattern.test(text) ? 1 : 0;
+}
+
+
+function quest_simple()
+{
+
+      $("#pelena_tit").show();
+      $("#quest_simple").show();
+      $("#gdi").hide();
+}
+
+function load_company_user(idc,id_user)
+{
+   
+    $.post("/public/orders/additem/form_add_order_step1_kn_listc.php",{idc:idc, id_user:id_user},function(data)
+    {
+        
+      $("#selCompany").html(data);    
+    })
+}
+
+
+function set_addres_select(nm,poz)
+{
+    var addr=$("#item"+nm+'_'+poz).attr('freeAddr'); 
+    $("#"+nm).val(addr);
+    $("#box_search_reg_"+nm).hide();
+}
+
+function poisk_addreses(seach_name, nm)
+{ 
+    var seach_name=$.trim(seach_name);
+    seach_name=seach_name.replace(/\s+/g, ' ').trim();
+    $("#gdi").show(); 
+    var data;  
+    if (seach_name.length>3)  
+    {  //$("#box_search_reg_"+nm).html('<div style="padding:20px; padding-top:10px; font-wieght:800;color:#f50;text-align:left;">Выполняется Ваш запрос...</div>');
+       $.get('/inc/ajax_base_addres.php',{seach_name:seach_name, nm:nm},function(data)
+       { 
+         $("#box_search_reg_"+nm).html(data);
+         $("#box_search_reg_"+nm).show();
+         var textToHighlight = seach_name;
+         var wordsToHighlight = textToHighlight.split(' ');
+         $('#box_search_reg_'+nm).find('*').each(function() {
+            var node = $(this);
+            var text = node.text();
+            var highlightedText = text;
+            
+            $.each(wordsToHighlight, function(index, word) {
+                var regex = new RegExp(word, 'gi');
+                highlightedText = highlightedText.replace(regex, '<font class=highlight>$&</font>');
+            });
+            
+            node.html(highlightedText);
+        });
+
+         $("#gdi").hide(); 
+      }); 
+    } 
+    else 
+    {
+      $("#gdi").hide(); 
+      $("#box_search_reg_"+nm).html('');
+      $("#box_search_reg_"+nm).hide();
+    } 
+}
+
+
+
+ function locate_autiris(param1,param2)
+ {
+    $.post("/models/manufacturer/locate_autoris.php",{p1:param1, p2:param2},function(data)
+    {
+        location.href='/entry';
+    });
+ }
+
+
+ function show_simpl_man(ida,idtree)
+ {
+  load_view_tit2('/show_kart.php?actions=show_albom_one&ida='+ida+'&idtree='+idtree);
+ }  
+
+
+
+function scrolls(met, divexternal)
+{
+   // Найти позицию метки относительно верхнего края страницы 
+   var metkaPosition = $('#'+met).offset().top-180;
+//   alert(metkaPosition);
+   // Прокрутить элемент #main к метке
+    $('#'+divexternal).animate({
+        scrollTop: metkaPosition
+    }, 1000); // 1000 - время в миллисекундах для анимации
+}
+
+function left_panel()
+{
+  $.post("/inc/small_big_session.php",{dip:1},function(data)
+  {
+   $("#left_tree_katalog").css("width","5%");    
+   $("#content_item_katalog").css("width","87%")
+   $("#max_padel").hide();
+   $("#min_padel").show();
+   $(".seach_org_country").css("margin-top","-16px");
+   $(".seach_org_country").css("margin-left","20px");
+  }); 
+
+}
+
+function right_panel()
+{
+  $.post("/inc/small_big_session.php",{dip:0},function(data)
+  {
+   $("#left_tree_katalog").css("width","27%");    
+   $("#content_item_katalog").css("width","65%")
+   $("#max_padel").show();
+   $("#min_padel").hide();
+   $(".seach_org_country").css("margin-top","12px");
+   $(".seach_org_country").css("margin-left","-290px");
+  }); 
+}
+
+
+
+function set_vidpr_isp(dip)
+{ 
+    $.post("/public/service_one_show/dip_session_isp.php",{dip:dip},function(dat)
+    {
+      //  console.log(dat);
+        var idz=$("#iditems").val();
+        var put='/public/service_one_show/show_vkl_item.php';
+        $.post(put,{idz:idz,npp:4},function(data)
+        {
+           $(".service_items_kt").html(data);
+          
+        });
+    });
+}
+
+//right_kabinet
+function send_load_chars(id)
+{
+  var to = $('#'+id);
+  $('html, body').animate({ scrollTop: to.offset().top, scrollLeft: to.offset().left }, 1000, 'swing');
+
+}
+
+
+function down_full_elements()
+{
+  $("#show_all_full").hide();
+  $("#full_items").css("height", "auto");
+  $("#select_service").css("height", "auto");
+}
+
+function un_down_full_elements()
+{
+  $("#show_all_full").show();
+  $("#full_items").css("height", "65px");
+  $("#select_service").css("height", "65px");
+}
+
+
+
+function send_load_chars(id)
+{
+  var $to = $('#'+id);
+  //$to=$('.zag_wcenter');
+  $('html, body').animate({ scrollTop: $to.offset().top, scrollLeft: $to.offset().left }, 1000, 'swing');
+
+}
+
+
+function set_add_service_stank(id)
+{
+    var u=$.trim($("#item_ids_st").val());
+    // замена  для поиска элементов
+    var u1=u.replace(/,/g,'},{')+'}';
+    var s=',{'+id+'}';
+    var it=$("#item_ids_st").val();
+//    console.log(u1);
+//    console.log(u1.indexOf(s)+' == '+id);
+  var un=u1.replace(/}/g,'');
+      un=un.replace(/{/g,'');
+//    console.log(un);
+    if (id>0 && u1.indexOf(s)==-1)
+    {
+       //$("#list_uslug_st").css("padding-top",'10px');
+
+
+        it+=',';
+        it+=id;
+        $("#item_ids_st").val(it);
+        $.post("/models/katalog/list_select_uslug_stank.php",{it:it,dip:1,top:140}, function (data)
+        {
+          $("#list_uslug_st").html(data);
+          $("[name=select_items_add_st]").html(data);
+          $("[name=select_items_add_st]").attr("tag",it);
+          $("#select_items_add_st").html(data);
+          $("#select_items_add_st").attr("tag",it);
+
+          $.post("/models/katalog/list_select_uslug_stank.php",{it:it,dip:0,top:140}, function (data)
+          {
+              $("[name=select_items_add_st]").html(data);
+              if ($('#key_tek').val()=='enterprises')
+                loadKatalogManuf(1);
+              else
+              if ($('#key_tek').val()=='orders' )
+                show_list_orders_opn(1);
+              else
+              {
+                 $("[id=edit_profil_kn2]").css('background-color','#2A9E89');
+                 loadKatalog_second_man_st();
+              }   
+      
+              $("#gdi").hide();
+
+
+          });
+         
+          $("#select_ok").show();
+
+        });
+    } 
+    else
+        if (u1.indexOf(s)!=-1)
+           mess('Такой элемент каталога уже есть в наборе услуг');   
+}
+
+
+function select_freepay(idz, vid)
+{
+
+     var id_edit_profi=$("#id_edit_profi").html()-0;   
+     $("#gdi").show();
+     var id_usera=$("#id_usera").val();
+     $('#show_div2').fadeOut(); 
+     $('#pelena2').fadeOut();
+     var su=$("#su_ost_").html();
+     su=parseFloat(su.replace(/\s/g, ''));
+     
+     zakr_pelena2();
+     
+     var put='/inc/paypro/add_temp_payment_pro.php';
+     $.post(put,{vid:vid, idz:idz, id_usera:id_usera,su:su, id_edit_profi:id_edit_profi },function(data)
+     {   
+      console.log(data);
+         load_list_tempadd_profi_free();
+         
+         $("#gdi").hide();
+     });
+
+
+}
+
+function close_all_show1()
+{
+   var key=$("#key_tek_inc").val();
+   $("#pelena").fadeOut();
+   $("#show_div").fadeOut();
+   if (key=='stankkatalog')
+    load_form_vkl_kat_stank(7);
+   else
+    load_form_vkl_kat(7);
+}  
+
+
+function save_file_css()
+{
+    var text=$.trim($("#txt_content").val());
+    $.post("/inc/css/save_file_css.php",{text:text},function(data)
+    {
+        load_view('/show_kart.php?actions=edit_css'); 
+    });  
+}
+
+
+function load_css()
+{
+
+  $.post("/inc/css/load_css_show.php",function(data)
+  {
+    
+   $("#content_css").html(data);
+  });  
+}
+
+function vibor_face(dip)
+{
+     $("#face_form").val(dip);
+     if (dip==2)
+     {
+         $("#select_ch_company").attr('class','vibor_box_sel')
+         $("#load_dan_profi_wind_fl").attr('class','vibor_box')
+         $("#rond_rb_company_fl").css('background-color',"rgba(255,255,255)");
+         $("#rond_rb_company").css('background-color',"rgba(150,150,150)");
+         $("#block_plastik").show();
+         set_dipPayProfi('select_PayProfi1');
+         
+     }
+     else
+     {
+         $("#load_dan_profi_wind_fl").attr('class','vibor_box_sel')
+         $("#select_ch_company").attr('class','vibor_box')
+         $("#rond_rb_company_fl").css('background-color',"rgba(150,150,150)");
+         $("#rond_rb_company").css('background-color',"rgba(255,255,255)");
+         $("#block_plastik").hide();
+     }
+}
+
+
+
+
+function vibor_face1(dip)
+{
+     $("#face_form").val(dip);
+     if (dip==2)
+     {
+         $("#select_ch_companyst").attr('class','vibor_box_sel')
+         $("#load_dan_profi_wind_flst").attr('class','vibor_box')
+         $("#rond_rb_company_flst").css('background-color',"rgba(255,255,255)");
+         $("#rond_rb_companyst").css('background-color',"rgba(150,150,150)");
+         
+     }
+     else
+     {
+         $("#load_dan_profi_wind_flst").attr('class','vibor_box_sel')
+         $("#select_ch_companyst").attr('class','vibor_box')
+         $("#rond_rb_company_flst").css('background-color',"rgba(150,150,150)");
+         $("#rond_rb_companyst").css('background-color',"rgba(255,255,255)");
+     }
+}
+
+
+function vibor_face2(dip)
+{
+     $("#face_form").val(dip);
+     if (dip==2)
+     {
+         $("#select_ch_company_foto").attr('class','vibor_box_sel')
+         $("#load_dan_profi_wind_fl_foto").attr('class','vibor_box')
+         $("#rond_rb_company_fl_foto").css('background-color',"rgba(255,255,255)");
+         $("#rond_rb_company_foto").css('background-color',"rgba(150,150,150)");
+         
+     }
+     else
+     {
+         $("#load_dan_profi_wind_fl_foto").attr('class','vibor_box_sel')
+         $("#select_ch_company_foto").attr('class','vibor_box')
+         $("#rond_rb_company_fl_foto").css('background-color',"rgba(150,150,150)");
+         $("#rond_rb_company_foto").css('background-color',"rgba(255,255,255)");
+     }
+}
+
+
+function export_order_word_profi(id,vid, idc)
+{        s='/view_rep_word.php?id='+id+'&vid='+vid+'&idc='+idc;
+       openWin(s);   
+
+}
+
+function export_order_word(id,vid)
+{
+       s='/view_rep_word.php?id='+id+'&vid='+vid;
+       openWin(s);   
+}
+
+function paySendProfiOrg(idc)
+{
+      var val_payprofy=$("#value_payprofy").val();
+      var id_spr=$("#oper_add_new").val();
+      var face=2;
+      var sposob_pay=1; 
+      var s='Проверьте: ', i=0, i1=0, prov1=0 , prov2=0 , prov3=0;
+
+
+
+      sposob_pay=1;
+        $("#titul_orders_add").html("Счет на оплату тарифа PROFI"); 
+
+        $.post("/public/akkauntprofi/load_pay_order_org.php", 
+            {val_payprofy:val_payprofy,face:face,sposob_pay:sposob_pay,id_spr:id_spr,idc:idc}
+            , function (data)
+        {
+           // console.log(data);
+            $('#main_pay_profi').html(data); 
+            $('html, body').animate({scrollTop: 0},300);
+        });
+        
+    
+}
+
+
+
+function paySendProfi()
+{
+      var val_payprofy=$("#value_payprofy").val();
+      var id_spr=$("#id_spr_tarif").val();
+      var face=parseInt($("#face_form").val());
+      var sposob_pay=1; 
+      var fio=$.trim($('#fio_chlitso_div').html());
+      var s='Проверьте: ', i=0, i1=0, prov1=0 , prov2=0 , prov3=0;
+      var idc=$("#select_company").val()-0;
+
+//      if ($.trim($("#proverka1").html())=='') { s+='[Адрес]'; i1=1; prov1=1; }
+//      if ($.trim($("#proverka2").html())=='') { s+='[ИНН]';      i1=1; prov2=1; }
+//      if ($.trim($("#proverka3").html())=='') { s+='[КПП]'; i1=1; prov3=1; }
+        if  (idc==0)
+            { s+='[Нет компании]'; i1=1; prov1=1; }
+
+
+      if (face==1 && fio.length==0)
+      { 
+         i=1;
+         s+='[ФИО пустое]'; 
+      }
+
+
+
+        //(select_ch_company)
+      if (i1==1 && face==2)
+      {
+         mess(s);
+         $('#select_ch_company').attr('class','vibor_box_red');
+      }
+      else 
+      if (i==1 && face==1)
+      {
+         mess(s);
+         $('#load_dan_profi_wind_fl').attr('class','vibor_box_red');
+      }
+      else
+      {
+
+       if  ($("#select_PayProfi1").attr("tag")=="yes")
+          sposob_pay=1;
+       else
+          sposob_pay=2;
+        $("#titul_orders_add").html("Счет на оплату тарифа PROFI"); 
+
+        $.post("/public/akkauntprofi/load_pay_order.php", {val_payprofy:val_payprofy,face:face,sposob_pay:sposob_pay,id_spr:id_spr, idc:idc}, function (data)
+        {
+          $('#main_pay_profi').html(data); 
+          $('html, body').animate({scrollTop: 0},300);
+        });
+        
+    //  }  
+      //else
+        //alert('В разработке');
+       }
+}
+
+function send_profi()
+{
+   var sel_mnf=0, idspr=0;
+   for (i=1; i<=4; i++)
+   {
+      if  ($("#select_month"+i+"_img").attr("src")=="/images/svg/checkbox_yes.svg")
+      {  
+        sel_mnf=i;
+        idspr=$("#chekbox_tarif"+i).attr("idspr");
+      }  
+   
+   }
+   put='/inc/send_profi.php';
+   $.post(put,{sel_mnf:idspr},function(data)
+   {
+     if (data=='1')
+     {   
+        document.location.replace('/payprofi/'+idspr);
+
+     }   
+     else
+        location.href='/entry';
+   });
+}
+
+
+
+
+function set_dipPayProfi(fild)
+{
+  $("[id^=select_PayProfi]").attr("tag",'no');
+  $("[id^=select_PayProfi]").css("background-color","rgba(255,255,255)");
+
+  $("#"+fild).attr("tag",'yes');
+  $("#"+fild).css("background-color","rgba(150,150,150)");
+}
+
+
+function set_dipProfi(fild,id_spr) 
+{
+  $("[id^=select_month]").attr("src",'/images/svg/checkbox_no.svg');
+  $("#select_month"+fild+'_img').attr("src",'/images/svg/checkbox_yes.svg');
+  
+  var s='3 МЕСЯЦА';
+  if (fild)
+  {
+    s=$("#sel_mec_"+fild).html();
+  }
+  $("#count_time").html(s);
+  
+}
+
+
+function metka_adm_setedit(dip, id_user)
+{
+      $("#gdi").show();
+       $.post("/models/kabinet/metka_adm_setedit.php", {dip:dip, id_user:id_user},function(data)
+       { 
+         var yes=parseInt(data);
+//         console.log(data);
+          if (yes>0)
+          {  
+              mess('Успешно подтвержден просмотр ');
+              load_view1('/show_kart.php?actions=edit_card_company&idc='+id_user);
+              $("#gdi").hide();
+          }  
+          else
+          {  
+            mess("Возникли проблемы подтверждением. Повторите");
+            $("#gdi").hide();
+          }  
+       });
+}
+
+
+function add_send_order(idusprdr)
+{
+    
+   $("#gdi").show();
+   $.post("/models/orders/predlogenie_order.php", { idusprdr:idusprdr},function(data)
+   { 
+      location.href='/orders/additem';
+   });
+
+}
+
+
+function set_order_sends(id_ord, idpr_to)
+{
+       $("#gdi").show();
+       $.post("/models/orders/send_messege_prorder.php", {id_ord:id_ord, idpr_to:idpr_to},function(data)
+       { 
+         var yes=parseInt(data);
+//         console.log(data);
+          if (yes>0)
+          {  
+              mess('Успешно отправлено предложение заказа № <b>'+id_ord+"</b>");
+              $('#show_div_tit').fadeOut(); 
+              $('#pelena_tit').fadeOut();
+              $('#show_div_content_tit').html('');
+              zakr_pelena_tit();
+              anichange("#send_orders_"+idpr_to);
+              $("#gdi").hide();
+          }  
+          else
+          {  
+            mess("Возникли проблемы с отправкой. Повторите");
+            $("#gdi").hide();
+          }  
+       });
+}
+
+
+function senddr_my_order(id)
+{
+  load_view_tit('/show_kart.php?actions=senddr_my_order&idpr='+id);
+
+}
+
+function send_messege_free(id)
+{
+
+    // messchat - чат
+    var key_tek=$("#key_tek").val();
+    var txt=$.trim($("#txt_mend_mess").val());
+
+    if (txt.length==0)
+    {
+        $("#window_otclick").css("border",'1.5px red solid');
+        mess("Заполните поле сообщения");
+    }  
+    else
+    {
+
+           $("#window_otclick").css("border",'1.5px #ccc solid'); 
+           $("#send_char_icon").hide();
+           $("#wait_icon").show();
+           var id_otv=$(".drop_boxs").attr("tag")-0; 
+           if (id_otv=='NaN' || !id_otv ) id_otv=0;
+           $.post("/models/orders/send_messege_free.php", {id_to:id, txt:txt, key_tek:key_tek}
+                 ,function(data)
+           {   var yes=parseInt(data);
+            console.log(data);
+              if (yes>0)
+              {  
+                //console.log(data);
+                mess('Успешно отправлено сообщение');
+                anichange('#send_messages');
+                $("#send_char_icon").show();
+                $("#wait_icon").hide();
+                $("#txt_mend_mess").val('');
+
+              }  
+              else
+              {  
+                mess("Возникли проблемы с отправкой. Повторите");
+                $("#send_char_icon").show();
+                $("#wait_icon").hide();
+              }  
+                
+            
+           });
+           
+    }  
+
+}
+
+
+function send_messege_free_dr(id)
+{
+
+    // messchat - чат
+    var key_tek=$("#key_tek").val();
+    var txt=$.trim($("#txt_mend_mess_"+id).val());
+
+    if (txt.length==0)
+    {
+        $("#window_otclick").css("border",'1.5px red solid');
+        mess("Заполните поле сообщения");
+    }  
+    else
+    {
+
+           $("#window_otclick_"+id).css("border",'1.5px #ccc solid'); 
+           $("#send_char_icon_"+id).hide();
+           $("#wait_icon_"+id).show();
+           var id_otv=$(".drop_boxs").attr("tag")-0; 
+           if (id_otv=='NaN' || !id_otv ) id_otv=0;
+           $.post("/models/orders/send_messege_free.php", {id_to:id, txt:txt, key_tek:key_tek}
+                 ,function(data)
+           {   var yes=parseInt(data);
+            //console.log(data);
+              if (yes>0)
+              {  
+                //console.log(data);
+                mess('Успешно отправлено сообщение');
+                anichange('#send_messages_'+id);
+                $("#send_char_icon_"+id).show();
+                $("#wait_icon_"+id).hide();
+                $("#txt_mend_mess_"+id).val('');
+
+              }  
+              else
+              {  
+                mess("Возникли проблемы с отправкой. Повторите");
+                $("#send_char_icon").show();
+                $("#wait_icon").hide();
+              }  
+                
+            
+           });
+           
+    }  
+
+}
+
+
+
+function drop_otv()
+{
+     $(".drop_boxs").remove(); 
+}
+
+function otvet_chat(id)
+{
+    $(".drop_boxs").remove(); 
+    var ss="<div style='width:20px;height:20px; float:right; padding:0px;margin-right:-2px;'><input class='kn_closes_tit' style='margin:0px; padding:0px;' onclick='drop_otv();'></div>";
+    var s="<div class='drop_boxs' tag='"+id+"' style='width:99%; float:left;'>";
+    s+="<div style='width:93%; float:left;'>"+$("#chat_contemt_"+id).html()+'</div>';
+    s+=ss+"</div>"; 
+    var cnt=$("#window_otclick").html();
+    $("#window_otclick").html(s+cnt);
+
+    $('html,body').animate({scrollTop: ($('html,body').get(0).scrollHeight)-750},500);
+    $("#txt_mend_mess").focus();
+
+
+}
+
+
+function ref_kabinet(dip)
+{
+   location.href='/kabinet/editlk';
+
+/*    $.post("/public/kabinet/editprofilul/dip_vkladka_profil.php",{dip:dip}, function (data)
+    {
+        location.href='/kabinet/editprofilur';
+    });  
+    */
+
+//    load_show_dipmenu(4);
+}
+
+function send_user_order(id_user)
+{
+    $.post("/public/orders/dip_vkladka_order.php",{dip:2}, function (data)
+    {
+        location.href='/userkart/'+id_user;
+    });  
+    
+}
+
+function ref_company(id,dip)
+{
+    $.post("/public/company/dip_vkladka.php",{dip:dip}, function (data)
+    {
+        location.href='/company/'+id;
+    });  
+
+//    load_show_dipmenu(4);
+}
+
+function load_chat_box(id_otclick)
+{
+    $.post("/public/orders/orderchat/list_chat.php",{id_otclick:id_otclick}, function (data)
+    {
+      $("#chat_show_box").html(data);
+    });   
+}
+
+function mini_katalog(iditem)
+{
+
+    var seach_main1=$.trim($("#seach_main1").val());
+    $.post("/public/service_one_show/mini_katalog.php",{seach_main:seach_main1,iditem:iditem,dip_send:1}, function (data)
+    {
+      $("#select_service").html(data);
+      if  (seach_main1!='')
+        down_full_elements();
+      else
+        un_down_full_elements();
+    });  
+}
+
+function mini_katalog_stank(iditem)
+{
+
+    var seach_main1=$.trim($("#seach_main1").val());
+    $.post("/public/stankservice_one_show/mini_katalog.php",{seach_main:seach_main1,iditem:iditem,dip_send:1}, function (data)
+     {
+      $("#select_service").html(data);
+      if  (seach_main1!='')
+        down_full_elements();
+      else
+        un_down_full_elements();
+
+    });  
+}
+
+
+function show_albom(ida)
+{
+    load_view_tit('/show_kart.php?actions=show_albom&ida='+ida);
+}
+
+function show_albom_org(ida)
+{
+    load_view_tit('/show_kart.php?actions=show_albom_org&ida='+ida);
+}
+
+function list_orders_sends(idpr)
+{
+   $("#seach_main_z").attr('tag',vid);
+   $("#gdi").show();  
+   var vid=1;
+   var se=$.trim($("#seach_main_z").val());
+   $.post("/public/orders/list_orders_sends.php",{idpr:idpr, se:se},function(data)
+   {
+
+       $("#list_orders").html(data);
+       $("#seach_main_z").attr('tag',vid);
+       $("#seach_main_z").focus();
+       var input = document.querySelector("#seach_main_z");
+        $("#gdi").hide();  
+   });  
+}
+
+
+function list_orders_page(page)
+{
+   var se=$.trim($("#seach_main_z").val());
+   var  vid= $("#seach_main_z").attr('tag')-0;
+   var tk='myorders';
+   $("#gdi").show(); 
+   $.post("/public/orders/list_orders.php",{vid:vid,tk:tk,se:se, page:page},function(data)
+   {
+
+       $("#list_orders").html(data);
+       $("#seach_main_z").focus();
+       var input = document.querySelector("#seach_main_z");
+       input.focus();
+       input.selectionStart = input.value.length;
+        $("#gdi").hide();  
+   });  
+}
+
+
+function list_orders(vid,tk)
+{ 
+   $("#seach_main_z").attr('tag',vid);
+   $("#gdi").show();  
+   var se=$.trim($("#seach_main_z").val());
+   $.post("/public/orders/list_orders.php",{vid:vid,tk:tk,se:se},function(data)
+   {
+
+       $("#list_orders").html(data);
+       $("#seach_main_z").attr('tag',vid);
+       $("#seach_main_z").focus();
+       var input = document.querySelector("#seach_main_z");
+       input.focus();
+       input.selectionStart = input.value.length;
+        $("#gdi").hide();  
+   });  
+}
+
+
+function ret_otkaz(id_user, id_order)
+{
+   $("#gdi").show();
+   
+   $.post("/models/orders/ret_otkaz_ispolnitel.php",{id_user:id_user, id_order:id_order},function(data)
+   {
+       location.reload();
+       $("#gdi").hide();  
+   });
+
+}
+
+
+function set_finishorder(id_otcl)
+{
+   $("#gdi").show();
+   $.post("/models/orders/set_finishorder.php",{id_otcl:id_otcl},function(data)
+   {
+//console.log(data);
+       location.reload();
+       $("#gdi").hide();  
+   });
+
+}
+
+function ret_onwork(id_otcl)
+{
+   $("#gdi").show();
+   $.post("/models/orders/set_ret_onwork.php",{id_otcl:id_otcl},function(data)
+   {
+       location.reload();
+       $("#gdi").hide();  
+   });
+
+}
+
+
+
+function return_onwork(id_otcl)
+{
+   $("#gdi").show();
+   $.post("/models/orders/return_onwork.php",{id_otcl:id_otcl},function(data)
+   {
+//console.log(data);
+       location.reload();
+       $("#gdi").hide();  
+   });
+
+}
+
+
+
+
+function return_predstatus(id_otcl)
+{
+   $("#gdi").show();
+   $.post("/models/orders/return_predstatus.php",{id_otcl:id_otcl},function(data)
+   {
+//console.log(data);
+       location.reload();
+       $("#gdi").hide();  
+   });
+
+}
+
+
+
+function otkaz_fromispolnitel(id_otcl)
+{
+   $("#gdi").show();
+   $.post("/models/orders/set_otkaz_fromisp.php",{id_otcl:id_otcl},function(data)
+   {
+//console.log(data);
+       location.reload();
+       $("#gdi").hide();  
+   });
+
+}
+
+function set_onprednish(id_otcl)
+{
+   $("#gdi").show();
+   $.post("/models/orders/set_onprednish.php",{id_otcl:id_otcl},function(data)
+   {
+    //console.log(data);
+       location.reload();
+       $("#gdi").hide();  
+   });
+
+}
+
+function vs_onworkispolnitel(id_otcl)
+{
+   $("#gdi").show();
+   $.post("/models/orders/set_onworkispolnitel.php",{id_otcl:id_otcl},function(data)
+   {
+    //console.log(data);
+       location.reload();
+       $("#gdi").hide();  
+   });
+
+}
+
+
+function otkaz_ispolnitel(id_user, id_order)
+{
+   $("#gdi").show();
+   
+   $.post("/models/orders/otkaz_ispolnitel.php",{id_user:id_user, id_order:id_order},function(data)
+   {
+       location.reload();
+       $("#gdi").hide();  
+   });
+
+}
+
+function ret_ispolnitel(id_order)
+{
+   $("#gdi").show();  
+   $.post("/models/orders/ret_ispolnitel.php",{id_order:id_order},function(data)
+   {
+       location.reload();
+       $("#gdi").hide();  
+   });
+
+}
+
+
+function set_ispolnitel(id_user, id_order)
+{
+   $("#gdi").show();  
+   $.post("/models/orders/set_ispolnitel.php",{id_user:id_user, id_order:id_order},function(data)
+   {
+    //console.log(data);
+       location.reload();
+       $("#gdi").hide();  
+   });
+
+}
+
+function set_favorits_rest(yn)
+{
+   $.post("/models/orders/set_favorits.php",{yn:yn},function(data)
+   {
+       location.href='/orders';
+       show_list_orders_opn(1);
+   });
+
+}
+
+
+function set_otclics_rest(yn)
+{
+   $.post("/models/orders/set_my_otclics.php",{yn:1},function(data)
+   { 
+           location.href='/orders';
+           show_list_orders_opn(1);
+   });    
+
+}
+
+function set_favorits_drawing(yn)
+{
+   $.post("/models/orders/set_favorits.php",{yn:yn},function(data)
+   {
+       send_set_menu('order_drawing'); 
+   });
+}   
+
+
+function set_favorits_enterprises(yn)
+{
+   $.post("/models/set_favorits_enterprises.php",{yn:yn},function(data)
+   {
+       location.href='/enterprises';
+   });
+}   
+
+
+function set_favorits_plans(yn)
+{
+   $.post("/models/orders/set_favorits.php",{yn:yn},function(data)
+   {
+       show_list_plans_opn(1);
+   });
+}   
+
+function set_favorits(yn)
+{
+   $.post("/models/orders/set_favorits.php",{yn:yn},function(data)
+   {
+       show_list_orders_opn(1);
+   });
+
+}
+
+function set_my_otclics(yn)
+{
+   $.post("/models/orders/set_my_otclics.php",{yn:yn},function(data)
+   {
+       show_list_orders_opn(1);
+   });
+
+}
+
+
+
+
+function copytext(id) 
+{
+    const str = $("#"+id).html();
+    const el = document.createElement('textarea');
+    el.value = str;
+    el.setAttribute('readonly', '');
+    el.style.position = 'absolute';
+    el.style.left = '-9999px';
+    document.body.appendChild(el);
+    el.select();
+    $("#kn_buf_"+id).html('OK');
+    document.execCommand('copy');
+    document.body.removeChild(el);
+    //mess('В буфере обмена: <b>'+str+'</b>');
+}
+
+
+$("html").mouseover(function() {
+    $("html").getNiceScroll().resize();
+});
+
+
+ function izm_strok_list_opn(kol)
+  { 
+    var s='/inc/ajax_izm_strok_list_opn.php?kol='+kol;
+    $.get(s);
+  }
+
+
+ function izm_strok_list(kol)
+  { 
+    var s='/inc/ajax_izm_strok_list.php?kol='+kol;
+    $.get(s);
+  }
+
+
+function resizesw()
+ {
+    var h=$(window).height();
+    var w=$(window).width();
+    $("#left_tree_katalog").css("height",(h-200)+'px');
+    $("#content_item_katalog").css("height",(h-200)+'px');
+  
+ }   
+
+
+
+function resizes()
+ {
+    var h=$('#left_row').height();
+    var hw=$(window).height();
+    var w=$(window).width();
+    $("#left_tree_katalog").css("height",(h-172)+'px');
+    $("#content_item_katalog").css("height",(h-172)+'px');
+    $("#item_boxis").css("height",(hw-420)+'px');
+    $("#kontent_text").css("height",(hw-440)+'px');
+    $("iframe").css("height",(hw-450)+'px');
+ }   
+
+ function resizes_gost()
+ {
+    var h=$(window).height();
+    var w=$(window).width();
+    $("#left_tree_katalog").css("height",(h-90)+'px');
+    $("#content_gost_katalog_show").css("height",(h-90)+'px');
+    $("#item_boxis").css("height",(h-420)+'px');
+    $("#kontent_text").css("height",(h-440)+'px');
+    $("iframe").css("height",(h-450)+'px');
+ }   
+
+
+
+
+function set_add_service(id)
+{
+    var u=$.trim($("#item_ids").val());
+    // замена  для поиска элементов
+    var u1=u.replace(/,/g,'},{')+'}';
+    var s=',{'+id+'}';
+    var it=$("#item_ids").val();
+    var key_tek=$('#key_tek').val();
+
+  var un=u1.replace(/}/g,'');
+      un=un.replace(/{/g,'');
+
+    if (id>0 && u1.indexOf(s)==-1)
+    {
+       // $("#list_uslug").css("padding-top",'10px');
+        it+=',';
+        it+=id;
+        $("#item_ids").val(it);
+        $.post("/models/katalog/list_select_uslug.php",{it:it,dip:1,top:140}, function (data)
+        {
+          $("#list_uslug").html(data);
+          $("#select_items_add").html(data);
+          $("#select_items_add").attr("tag",it);
+          $("[name=select_items_add]").html(data);
+          $("[name=select_items_add]").attr("tag",it);
+
+          $.post("/models/katalog/list_select_uslug.php",{it:it,dip:0,top:140}, function (data)
+          {
+              $("[name=select_items_add]").html(data);
+              $("[id=edit_profil_kn2]").css('background-color','#2A9E89');
+              loadKatalog_second();
+              // ТУТ ИЗМЕНЕНИЕ В ФИЛЬТРЕ
+              if (key_tek=='plans' || key_tek=='kabinet')
+                show_list_plans_opn(1);
+              if (key_tek=='orders' || key_tek=='ordersadm')
+                show_list_orders_opn(1);
+              if (key_tek=='enterprises')
+                loadKatalogManuf(1);;
+
+             $("#gdi").hide();
+
+          });
+          $("#select_ok").show();
+
+        });
+    } 
+    else
+        if (u1.indexOf(s)!=-1)
+           mess('Такой элемент каталога уже есть в наборе услуг');   
+}
+
+function ondel_element_st(id)
+{
+     var it=$("#item_ids_st").val();
+ var u=$.trim($("#item_ids_st").val());
+    // замена  для поиска элементов
+    var u1=u.replace(/,/g,'},{')+'}';
+    var ss=',{'+id+'}';
+    u1=u1.replace(ss,'');
+  var un=u1.replace(/}/g,'');
+      un=un.replace(/{/g,'');
+      it=un;
+
+     $("#item_ids_st").val(it);
+
+     $.post("/models/katalog/list_select_uslug_stank.php",{it:it,dip:1}, function (data)
+     {
+       $("#list_uslug_st").html(data);
+       $("[name=select_items_add_st]").attr("tag",it);
+       if (!it)
+       {
+             $("[name=select_items_add_st]").html('');
+             $("[id=edit_profil_kn2]").css('background-color','#2A9E89');
+              if ($('#key_tek').val()=='enterprises')
+              {
+                $("[name=select_items_add_st]").html('');
+                $("[name=select_items_add_st]").attr("tag",'');
+                $("#select_items_add_st").html('');
+                $("#select_items_add_st").attr("tag",'');
+                loadKatalogManuf(1);
+              }  
+              if ($('#key_tek').val()=='orders' )
+                show_list_orders_opn(1);
+              $("#gdi").hide();
+
+       } 
+       else
+       {
+           $.post("/models/katalog/list_select_uslug_stank.php",{it:it,dip:0}, function (data)
+           {
+              $("[name=select_items_add_st]").html(data);
+              $("[id=edit_profil_kn2]").css('background-color','#2A9E89');
+              
+               if ($('#key_tek').val()=='enterprises')
+               {
+                  
+                  $("[name=select_items_add_st]").html(data);
+                  $("[name=select_items_add_st]").attr("tag",it);
+                  $("#select_items_add_st").html(data);
+                  $("#select_items_add_st").attr("tag",it);
+                  loadKatalogManuf(1);
+               } 
+              loadKatalog_second_man_st();
+              $("#gdi").hide();
+           });
+        }   
+
+     });
+}
+
+
+
+
+
+function ondel_element(id)
+{
+     var it=$("#item_ids").val();
+
+
+ var u=$.trim($("#item_ids").val());
+    // замена  для поиска элементов
+    var u1=u.replace(/,/g,'},{')+'}';
+    var ss=',{'+id+'}';
+    u1=u1.replace(ss,'');
+  var un=u1.replace(/}/g,'');
+      un=un.replace(/{/g,'');
+      it=un;
+
+     $("#item_ids").val(it);
+     $("#item_ids").val(it);
+
+     $.post("/models/katalog/list_select_uslug.php",{it:it,dip:1}, function (data)
+     {
+       $("#list_uslug").html(data);
+       $("[name=select_items_add]").attr("tag",it);
+       $("#gdi").hide();
+       if (!it)
+       {
+             $("[name=select_items_add]").html('');
+             $("[id=edit_profil_kn2]").css('background-color','#2A9E89');
+
+             if ($('#key_tek').val()=='plans' || $('#key_tek').val()=='kabinet')
+                show_list_plans_opn(1);
+              if ($('#key_tek').val()=='orders' )
+                show_list_orders_opn(1);
+              if ($('#key_tek').val()=='enterprises')
+              {
+                $('#close_4').hide();
+                $("#kn_service").attr("class","kn_top_white");
+                $("#select_items_add").attr('tag','');
+                $("#select_items_add").html('');
+                $("#service_count").html('');
+                loadKatalogManuf(1);
+              }  
+              $("#gdi").hide();
+
+
+       } 
+       else
+       {
+           $.post("/models/katalog/list_select_uslug.php",{it:it,dip:0}, function (data)
+           {
+              $("[name=select_items_add]").html(data);
+              $("[id=edit_profil_kn2]").css('background-color','#2A9E89');
+               if ($('#key_tek').val()=='enterprises')
+                loadKatalogManuf(1);
+               loadKatalog_second();
+               
+              var str_service=it;  
+      
+// count item
+              if (str_service>'')
+              {     var s=str_service;
+                    var kl=0;
+                    for (i=0; i<s.length; i++)
+                    {
+                        if (s.substr(i,1)==',')
+                            kl++;
+                    }
+                    $('#close_4').show();
+                    $("#select_items_add").attr('tag',it);
+                    $("#kn_service").attr("class","kn_top_green");
+                    $("#service_count").html(kl);
+                            //                clear_profi();
+              }
+              else
+              {
+                    $('#close_4').hide();
+                    $("#kn_service").attr("class","kn_top_white");
+                    $("#select_items_add").attr('tag','');
+                    $("#select_items_add").html('');
+                    $("#service_count").html('');
+
+              }
+
+
+
+               $("#gdi").hide();
+
+
+           });
+        }   
+
+     });
+}
+
+
+
+function disload_second2_url(url,tb, id2, pref)
+{
+  $("[id=vverh_el2_"+id2+"_"+pref+']').hide();
+
+  anichange("#element_hid2_"+tb+"_"+id2+'_'+pref);
+  var snat=$("#snat_el2_"+id2+"_"+pref).attr("second")-0;
+
+  z=" load_second2_url('"+url+"',"+tb+","+id2+","+pref+")";
+  if (snat==0)
+    $('[id=snat_el2_'+id2+"_"+pref+']').attr("onclick",z);
+}
+
+
+
+function disload_second_url(url,tb, id2, pref)
+{
+  $("[id=vverh_el_"+id2+"_"+pref+']').hide();
+
+  anichange("#element_hid_"+tb+"_"+id2+'_'+pref);
+  var snat=$("#snat_el_"+id2+"_"+pref).attr("second")-0;
+
+  z=" load_second_url('"+url+"',"+tb+","+id2+","+pref+")";
+  if (snat==0)
+    $('[id=snat_el_'+id2+"_"+pref+']').attr("onclick",z);
+}
+
+
+
+function load_second_url(url,tb, id2, pref)
+{
+  $("[id=vverh_el_"+id2+"_"+pref+']').show();
+
+  anichange("#element_hid_"+tb+"_"+id2+'_'+pref);
+  var snat=$("#snat_el_"+id2+"_"+pref).attr("second")-0;
+
+  var keys=$("#katalog_box_all").attr('tag');
+  var z="location.href='/service/"+url+"'";
+  if (keys=='katalog')
+    var z="location.href='/katalog/"+url+"'";
+
+  var dip_send=$("#dip_send").val();
+  if (dip_send==0  || dip_send==10)
+    z=" set_add_service("+id2+"); return false; ";
+  if (snat==0)
+    $('[id=snat_el_'+id2+"_"+pref+']').attr("onclick",z);
+}
+
+
+
+
+
+function load_second2_url(url,tb, id3, pref)
+{
+  $("[id=vverh_el2_"+id3+"_"+pref+']').show();
+
+  anichange("#element_hid2_"+tb+"_"+id3+'_'+pref);
+  var snat=$("#snat_el2_"+id3+"_"+pref).attr("second")-0;
+
+  var keys=$("#katalog_box_all").attr('tag');
+  var z="location.href='/service/"+url+"'";
+  if (keys=='katalog')
+    var z="location.href='/katalog/"+url+"'";
+  var dip_send=$("#dip_send").val();
+  if (dip_send==0  || dip_send==10)
+      z=" set_add_service("+id3+"); return false; ";
+  if (snat==0)
+    $('[id=snat_el2_'+id3+"_"+pref+']').attr("onclick",z);
+
+}
+
+
+
+
+function loadKatalog(dip_send, top)
+{
+  var seach_main=''; 
+  if ($("#show_div_content_tit").is(":visible"))
+      seach_main=$.trim($("#show_div_content_tit #seach_main").val());
+  else
+     seach_main=$.trim($("#seach_main").val());
+
+  var iditem=$("#iditems").val();
+  var idtree=$("#idtree").val();
+  var id_sel1ur=$("#region_seach").attr("tag");
+
+  $.post("/models/katalog/main_katalog_all.php",
+    {seach_main:seach_main,iditem:iditem,dip_send:dip_send, top:top,idtree:idtree, id_sel1ur:id_sel1ur}, function (data)
+  {
+      $("#loadKatalog_list").html(data);
+      if (seach_main.length>0)
+        $("[id^=element_hid_]").show();
+      else
+        $("[id^=element_hid_]").hide();
+    
+  });
+}
+
+
+
+
+function loadKatalogStankList(dip_send)
+{
+  var seach_main=''; 
+  if ($("#show_div_content_tit").is(":visible"))
+      seach_main=$.trim($("#show_div_content_tit #seach_main").val());
+  else
+     seach_main=$.trim($("#seach_main").val());
+
+  var iditem=$("#iditems").val();
+  var idtree=$("#idtree").val();
+//  alert(idtree);
+  $.post("/models/stankkatalog/main_katalog_all_stank.php",{seach_main:seach_main,iditem:iditem,dip_send:dip_send,  idtree:idtree}, function (data)
+  {
+      $("#loadKatalog_list").html(data);
+      if (seach_main.length>0)
+        $("[id^=element_hid_]").show();
+      else
+        $("[id^=element_hid_]").hide();
+  });
+}
+
+
+function loadKatalogStank(dip_send, top)
+{
+  var seach_main=''; 
+  if ($("#show_div_content_tit").is(":visible"))
+      seach_main=$.trim($("#show_div_content_tit #seach_main").val());
+  else
+     seach_main=$.trim($("#seach_main").val());
+ 
+  var iditem=$("#iditems").val();
+  var id_sel1ur=$("#region_seach").attr("tag");
+  $.post("/models/stankkatalog/main_katalog_all.php",
+    {seach_main:seach_main,iditem:iditem,dip_send:dip_send, top:top,id_sel1ur:id_sel1ur}, function (data)
+  {
+      $("#loadKatalog_list").html(data);
+      if (seach_main.length>0)
+        $("[id^=element_hid_]").show();
+      else
+        $("[id^=element_hid_]").hide();
+  });
+}
+
+
+function loadKatalogs(dip_send)
+{
+  var seach_main=$.trim($("#seach_main").val());
+  var iditem=$("#iditems").val();
+
+/*  $.post("/models/katalog/main_katalog_all.php",{seach_main:seach_main,iditem:iditem,dip_send:dip_send}, function (data)
+  {
+      $("#loadKatalog_list").html(data);
+      if (seach_main.length>0)
+        $("[id^=element_hid_]").show();
+      else
+        $("[id^=element_hid_]").hide();
+  });
+*/
+mess('В разработке');  
+}
+
+
+function loadKatalog_second()
+{
+  var seach_main='';
+  var iditem=0;
+  var str=$("#select_items_add").attr('tag');
+  if (str=='')
+     $("#loadKatalog_list_second").html('<br><h2><br>У Вас нет ни одной добавленной услуги</h2>');
+  else
+  {  
+      $.post("/models/katalog/main_katalog_all_second.php",{str:str}, function (data)
+      {
+          $("#loadKatalog_list_second").html(data);
+          var h=$("#show_div_content_tit #kont_itemses1").height()+125;
+          $("#show_div_content_tit #katalog_comtents").css("padding-top",h+'px');
+      });
+  }    
+}
+
+
+function loadplans(dip_send)
+{
+  var seach_main=$.trim($("#seach_main").val());
+  var iditem=$("#iditems").val();
+
+  $.post("/models/plans/main_plans_all.php",{seach_main:seach_main,iditem:iditem,dip_send:dip_send}, function (data)
+  {
+      $("#loadPlans_list").html(data);
+  });
+}
+
+
+
+function sleep(millis) {
+    var t = (new Date()).getTime();
+    var i = 0;
+    while (((new Date()).getTime() - t) < millis) {
+        i++;
+    }
+}
+
+
+function only_tsifry_sp(val, limit_len,id, max_zn)
+   { 
+      var z=$("#ch_payments_img");
+      z.attr("src","/images/svg/checkbox_no.svg");
+      val=val.replace(",", ".");
+      if (!max_zn) var max_zn=0; 
+      var kol=val.length, yes_sim=0;
+          var rez='';
+          var kol_sim=0;
+      if (!id) id='';
+          
+          for (i=0; i<=kol-1; i++)
+          {
+            // || val[i]=='-'
+            if (val[i]>='0' && val[i]<='9' || val[i]=='.'   ) 
+            {
+               kol_sim++;
+               ////console.log(val[i]);
+               if (i<=limit_len-1 && limit_len>0 || limit_len==0 || val[i]=='-')
+               {
+                 if (max_zn==0 || max_zn>=((rez+val[i])-0)  || val[i]=='-')
+                 { 
+                  rez+=val[i];
+                 }
+                 else
+                 {
+                   yes_sim =1;
+                 } 
+               } 
+               else
+                yes_sim =1;
+            }
+            else
+              yes_sim=1;
+          }
+     rez=(rez+'').replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');     
+     if (id>'' )  $("#"+id).val(rez);
+     return rez;
+   }   
+
+
+   function only_tsifry_tel(val, limit_len,id, max_zn, probel)
+   {  val=val.replace(",", "");
+      val=val.replace(".", "");
+      val=val.replace("-", "");
+
+      console.log(val);
+      if (!max_zn) var max_zn=0; 
+      var kol=val.length, yes_sim=0;
+          var rez='';
+          var kol_sim=0;
+      if (!id) id='';
+          
+          for (i=0; i<=kol-1; i++)
+          {
+            if (val[i]>='0' && val[i]<='9')
+            {
+               kol_sim++;
+               ////console.log(val[i]);
+               if (i<=limit_len-1 && limit_len>0 || limit_len==0 )
+               {
+                 if (max_zn==0 || max_zn>=((rez+val[i])-0) )
+                 { 
+                  rez+=val[i];
+                 }
+                 else
+                 {
+                   yes_sim =1;
+                 } 
+               } 
+               else
+                yes_sim =1;
+            }
+            else
+              yes_sim=1;
+          }
+      if (probel)    
+        rez=(rez+'').replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');     
+     if (id>'' )  $("#"+id).val(rez);
+     return rez;
+   }   
+
+  function only_maska(val, id)
+   {  var kol=val.length, yes_sim=0;
+      var rez='';
+      var kol_sim=0;
+      for (i=0; i<=kol-1; i++)
+      {
+        if (val[i]=='X' || val[i]=='-' || val[i]=='(' || val[i]==')' || val[i]==' ')
+        {
+           kol_sim++;
+           ////console.log(val[i]);
+           rez+=val[i];
+        }
+        else
+           rez+='X';
+          yes_sim=1;
+      
+      }
+
+      $("#"+id).val(rez);
+     return rez;
+   }   
+
+
+ function only_tsifry(val, limit_len,id, max_zn, probel)
+   {  val=val.replace(",", ".");
+      if (!max_zn) var max_zn=0; 
+      var kol=val.length, yes_sim=0;
+          var rez='';
+          var kol_sim=0;
+      if (!id) id='';
+          
+          for (i=0; i<=kol-1; i++)
+          {
+            if (val[i]>='0' && val[i]<='9' || val[i]=='.'   || val[i]=='-')
+            {
+               kol_sim++;
+               ////console.log(val[i]);
+               if (i<=limit_len-1 && limit_len>0 || limit_len==0 || val[i]=='-')
+               {
+                 if (max_zn==0 || max_zn>=((rez+val[i])-0)  || val[i]=='-')
+                 { 
+                  rez+=val[i];
+                 }
+                 else
+                 {
+                   yes_sim =1;
+                 } 
+               } 
+               else
+                yes_sim =1;
+            }
+            else
+              yes_sim=1;
+          }
+      if (probel)    
+        rez=(rez+'').replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');     
+     if (id>'' )  $("#"+id).val(rez);
+     return rez;
+   }   
+
+function translit(word){
+    var converter = {
+        'а': 'a',    'б': 'b',    'в': 'v',    'г': 'g',    'д': 'd',
+        'е': 'e',    'ё': 'e',    'ж': 'zh',   'з': 'z',    'и': 'i',
+        'й': 'y',    'к': 'k',    'л': 'l',    'м': 'm',    'н': 'n',
+        'о': 'o',    'п': 'p',    'р': 'r',    'с': 's',    'т': 't',
+        'у': 'u',    'ф': 'f',    'х': 'kh',    'ц': 'ts',    'ч': 'ch',
+        'ш': 'sh',   'щ': 'shch',  'ь': '',     'ы': 'y',    'ъ': '',
+        'э': 'e',    'ю': 'yu',   'я': 'ya'
+    };
+ 
+    word = word.toLowerCase();
+  
+    var answer = '';
+    for (var i = 0; i < word.length; ++i ) {
+        if (converter[word[i]] == undefined){
+            answer += word[i];
+        } else {
+            answer += converter[word[i]];
+        }
+    }
+ 
+    answer = answer.replace(/[^-0-9a-z]/g, '-');
+    answer = answer.replace(/[-]+/g, '-');
+    answer = answer.replace(/^\-|-$/g, ''); 
+    return answer;
+}
+
+
+
+function set_fizUd_reg(dip)
+{
+     $("#info_rekvisits_onINN").hide();
+     if (dip==1)
+     {
+          $("#fiz_l").show();
+          $("#fiz_lp").hide();
+          $("#urid_l").hide();
+          $("#pravo_form_img").attr("src","/images/svg/checkbox_no.svg");
+          $("#ya_fiz_faceF_img").attr("src","/images/svg/checkbox_yes.svg");
+          $("#ya_ur_faceF_img").attr("src","/images/svg/checkbox_no.svg");
+
+          $("#ya_fiz_face").attr("class",'check_box_yes');
+          $("#ya_ur_face").attr("class",'check_box_no');
+          $("#pravo_form").attr("class",'check_box_no');
+     }
+     else
+     if (dip==2)
+     {   
+          $("#fiz_l").hide();
+          $("#fiz_lp").hide();
+          $("#urid_l").show();
+
+          $("#ya_ur_faceF_img").attr("src","/images/svg/checkbox_yes.svg");
+          $("#ya_fiz_faceF_img").attr("src","/images/svg/checkbox_no.svg");
+          $("#ya_fiz_face").attr("class",'check_box_no');
+          $("#ya_ur_face").attr("class",'check_box_yes');
+          $("#pravo_form").attr("class",'check_box_no');
+     }     
+     else
+     if (dip==3)
+     {   
+         var Dip3Set=$("#pravo_form_img").attr("src");
+         if (Dip3Set=='/images/svg/checkbox_yes.svg')
+            set_fizUd_reg(1);
+         else
+         {
+          $("#fiz_l").hide();
+          $("#fiz_lp").show();
+          $("#urid_l").hide();
+
+          $("#pravo_form_img").attr("src","/images/svg/checkbox_yes.svg");
+          $("#ya_fiz_faceF_img").attr("src","/images/svg/checkbox_yes.svg");
+          $("#ya_ur_faceF_img").attr("src","/images/svg/checkbox_no.svg");
+
+          $("#ya_fiz_face").attr("class",'check_box_yes');
+          $("#ya_ur_face").attr("class",'check_box_no');
+          $("#pravo_form").attr("class",'check_box_yes');
+         } 
+     }     
+
+     if (dip==2)
+     {
+        $("#ya_ur_faceF_img").attr("src","/images/svg/checkbox_yes.svg");  
+     }
+
+}
+
+ function vhod_pod()
+ {
+         // проверка телефонов
+          $.post("/inc/vhod_pod.php",function(data)
+          {
+              $("#vhod_pod").html(data);
+              anichange("#vhod_pod");
+          });
+ }
+
+
+function goto_aticle(url,domen)
+{
+    
+    $.post('/models/set_gosite.php',{url:url,domen:domen},function(data)
+    {
+        
+        location.href='/article/'+url;  
+    });
+    
+}
+
+
+$('input').attr('autocomplete', 'off');
+
+
+ function zakr_loadview()
+ {
+    if (!$("#show_div_content").is(":hover")) 
+    {
+      
+       $("#show_div").fadeOut();  // меню справа по входу
+       $('#pelena').fadeOut();
+       $("#body_ish").css('overflow', 'visible');
+    }   
+ }
+
+
+function zakr_loadview1()
+ {
+    if (!$("#show_div_content1").is(":hover")) 
+    {
+      
+       $("#show_div1").fadeOut();  // меню справа по входу
+       $('#pelena1').fadeOut();
+       $("#body_ish").css('overflow', 'visible');
+    }   
+ }
+
+   function mess(val,vid,func)
+   {
+     if (!vid) vid=0;
+     if (!func) finc=0;
+     var s='';
+     if (val) 
+     {
+         if (!vid) 
+             s='<div style="width:11px; float:right; margin-top:-10px; margin-right:-7px; "><input class="kn_close" type="button" onmousedown="close_mess();" title="Закрыть окно"></div>';
+         s+=' <div>'+val+'</div>';
+         if (vid)
+         {
+            s+="<input class=kn value='OK' style='text-align:center;' onclick=\"$('#mess').hide();";
+            if (func) s+=func;
+            s+="\">";
+         }
+        $("#mess").html(s);
+
+        if (vid)
+          $("#mess").show();
+        else  
+          $("#mess").show("fast").delay(4000).hide("slow");
+     }
+   }
+
+   function close_mess()
+   {
+      $("#mess").hide();
+   }
+
+function close_titul()
+{
+  $("#mess").hide();
+  $('#kabinet_topItems_menu').hide();
+  $('#titul_topItems_menu').hide();
+}
+
+
+function load_view_tit01(adr)
+{ 
+   $("#pelena_tit01").show();
+   $("#show_div_content_tit01").html("");
+   $.get(adr,function(data)
+   {
+      $("#show_div_content_tit01").html(data);         
+      $("#body_ish").css('overflow', 'hidden');
+      $("#show_div_tit01").show();
+      $("#gdi").hide();
+   });
+}   
+
+
+function load_view_tit1(adr)
+{
+   $("#pelena_tit1").show();
+   $("#show_div_content_tit1").html("");
+   $.get(adr,function(data)
+   {
+      $("#show_div_content_tit1").html(data);         
+      $("#body_ish").css('overflow', 'hidden');
+      $("#show_div_tit1").show();
+      $("#gdi").hide();
+   });
+}   
+
+
+function load_view_tit0(adr)
+{
+   $("#pelena_tit0").show();
+   $("#show_div_content_tit0").html("");
+   $.get(adr,function(data)
+   {
+      $("#show_div_content_tit0").html(data);         
+      $("#body_ish").css('overflow', 'hidden');
+      $("#show_div_tit0").show();
+      $("#gdi").hide();
+   });
+}   
+
+function load_view_tit2(adr)
+{
+   $("#pelena_tit2").show();
+   $("#show_div_content_tit2").html("");
+   $.get(adr,function(data)
+   {
+      $("#show_div_content_tit2").html(data);         
+      $("#body_ish").css('overflow', 'hidden');
+      $("#show_div_tit2").show();
+      $("#gdi").hide();
+   });
+}   
+
+
+
+function load_view_tit(adr)
+{
+   $("#pelena_tit").show();
+   $("#show_div_content_tit").html("");
+   $.get(adr,function(data)
+   {
+      $("#show_div_content_tit").html(data);         
+      $("#body_ish").css('overflow', 'hidden');
+      $("#show_div_tit").show();
+      $("#gdi").hide();
+   });
+}   
+
+function load_view(adr)
+ {
+   $("#pelena").show();
+   $("#show_div_content").html("");
+   $.get(adr,function(data)
+   {
+      $("#show_div_content").html(data);         
+      $("#body_ish").css('overflow', 'hidden');
+      $("#show_div").show();
+      $("#gdi").hide();
+   });
+ 
+ }
+
+
+function load_view1(adr)
+ {
+   $("#pelena1").show();
+   $("#show_div_content1").html("");
+   $.get(adr,function(data)
+   {
+      $("#show_div_content1").html(data);         
+      $("#body_ish").css('overflow', 'hidden');
+      $("#show_div1").show();
+      $("#gdi").hide();
+   });
+ 
+ }
+
+ 
+function load_view2(adr)
+ {
+   $("#pelena2").show();
+   $("#show_div_content2").html("");
+   $.get(adr,function(data)
+   {
+      $("#show_div_content2").html(data);         
+      $("#body_ish").css('overflow', 'hidden');
+      $("#show_div2").show();
+      $("#gdi").hide();
+   });
+ 
+ }
+
+
+
+function hide_pelena()
+{ 
+  $("#pelena1").hide(); 
+  $("#pelena").hide(); 
+  $("#menu_top").hide();
+  $("#center_box_show").hide()
+  if ($("#top_box_list").is(':visible')) $("#top_box_list").hide();
+  if ($("#entry_div").is(':visible'))
+  if ($("#top_box_list").is(':visible')) anichange("#top_box_list");
+  if ($("#reg_div").is(':visible')) $("#reg_div").fadeOut(); 
+  if ($("#entry_div").is(':visible')) $("#entry_div").fadeOut(); 
+  if ($("#return_passwd").is(':visible')) $("#return_passwd").fadeOut(); 
+  if ($("#center_box_show1").is(':visible')) 
+  {  
+     //$("[class^=imgareaselect]").css({'z-index':'0'});
+     $("[class^=imgareaselect]").hide();
+     $("#center_box_show1").css({'display':'none'});
+     $('file_fotolk').val('');
+     $("#form_foto")[0].reset();
+  }   
+  if ($("#center_box_show").is(':visible')) 
+     $("#center_box_show").css({'display':'none'});
+
+  if ($("#setup_box").is(':visible')) 
+     $("#setup_box").css({'display':'none'});
+
+  if ($("#center_box_show").is(':visible')) 
+     $("#center_box_show").css({'display':'none'});
+   $("[id^=add_tovar_]").html('');
+   $("[id^=add_tovar_]").hide();
+
+  if ($("#setup_box").is(':visible')) 
+     $("#setup_box").css({'display':'none'});
+  $("#main_body_div").attr("class",''); 
+
+}
+
+
+
+function hide_pelena1()
+{ 
+  $("#pelena1").hide(); 
+  $("#center_box_show1").hide()
+
+}
+
+
+function hide_pelena2()
+{ 
+  $("#pelena2").hide(); 
+  $("#center_box_show2").hide()
+
+}
+
+   function not_mask_phone(val)
+   {  
+          var kol = val.length, rez='', ch;
+          for (i=0; i<=val.length; i++)
+          {
+            ch=val.substr(i,1); 
+            if (ch>='0' && ch<='9' )
+               rez+=ch;
+          }
+          return rez;
+    }      
+
+  function vhod_pod()
+ {
+         // проверка телефонов
+          $.post("/inc/vhod_pod.php",function(data)
+          {
+              $("#vhod_pod").html(data);
+              anichange("#vhod_pod");
+          });
+ }
+
+
+
+function resize_begin_adm()
+{
+    
+//   var w=$(window).width(), w_main=1280, vid=1;
+//   var h=$(window).height();
+//   $("#center_box_adm").css('width',(w-150)+'px');
+//   $("#left_row").css("height",(h-80)+'px');  
+    
+}
+
+function online_now()
+ {
+   $.post('/inc/ajax_online_now.php',function(data)
+   {
+//    console.log(data);
+     $('#online_now').html(data);
+   });
+ }
+
+ function online_now_user(id)
+ {
+   $.post('inc/ajax_online_now_user.php',{id:id},function(data)
+   {
+     $('#online_now').html(data);
+   });
+ }
+
+
+function resize_begin()
+{
+   var w=$(window).width(), w_main=1280, vid=1;
+   var h=$(window).height();
+   var mp=$("#main_page").height()-0;
+   var ft=$("#footer").height()-0;
+//   console.log('L='+limits+' ft='+ft+' mp='+mp+' h='+h);
+   if (w<1280 && w>=768)
+   {
+    vid=2; 
+
+   } 
+   else
+    if (w<768)
+    {    
+     vid=3;
+     
+    } 
+ 
+   var key_tek=$("#key_tek").val();
+//  console.log(key_tek);
+   var key_pages=$("#key_pages").val();
+   if (key_pages>'' && key_tek=='')
+   { 
+       key_tek='pages';
+       $("#key_tek").val('pages');
+   }
+
+   if (key_tek=='entry' ||  key_tek=='registration' ||  key_tek=='registrationNext' || key_tek=='pages' 
+     || key_tek=='recovery' || key_tek=='kabinet' || key_tek=='editprofil'
+      || key_tek=='orders' || key_tek=='services' || key_tek=='order_drawing' || key_tek=='onlineservice'
+      || key_tek=='delivery'  || key_tek=='plans' 
+      || key_tek=='safetransaction'  || key_tek=='verifiedbyus' || key_tek=='help' || key_tek=='helps'
+      || key_tek=='support' || key_tek=='akkauntprofi' || key_tek=='payprofi' || key_tek=='paid'
+      || key_tek=='enterprise' || key_tek=='mapsite'
+
+     )
+   {
+
+     limits=750;
+     if ( key_tek=='registration' || key_tek=='registrationNext' || key_tek=='recovery' 
+         || key_tek=='kabinet' || key_tek=='editprofil'  || key_tek=='order_drawing'
+         || key_tek=='enterprise' )
+        limits=900;
+     if (key_tek=='pages')
+         limits=$("#main_page").height()+400;
+     if (key_tek=='services')
+        limits=$("#main_page").height()+1150;
+
+     if (key_tek=='enterprise')
+        limits=$("#main_page").height()+1220;
+
+      var h_image_driver=$("#image_driver").height();
+      if (key_tek=='kabinet')
+         h_image_driver=h-$("#main_lk").height();
+
+      if (key_tek=='plans')
+      {
+         limits=$("#main_page").height()+950;
+      }  
+
+      if (key_tek=='akkauntprofi' || key_tek=='payprofi'  || key_tek=='paid')
+      {
+        limits=1000;
+        console.log(h_image_driver,limits);
+
+      }
+        //limits=10000;
+      if (key_tek=='orders' )
+      {
+          limits=$("#main_page").height()+800;;
+          if ($("#key_tek_sub").val()=='additem')
+          {  
+            $("#futter_box").hide();
+
+          }  
+      }
+
+
+     if (key_tek=='safetransaction' || key_tek=='verifiedbyus' || key_tek=='help' || key_tek=='helps')
+     {   
+        limits=2000;
+        h_image_driver=$("#main_page").height()+1400;;
+     }   
+
+     else
+     {   
+          if (h_image_driver>limits)
+          { 
+            $("#futter_box").css("position","fixed");
+            $("#futter_box").css("bottom","0px");
+          }  
+          else
+          { 
+            $("#futter_box").css("position","absolute");
+            $("#futter_box").css("bottom","auto");
+          }  
+      }  
+
+     if (key_tek=='support')
+     {
+        limits=1600;
+        h_image_driver=$("#image_driver").height();
+        //console.log(h_image_driver);
+        if (h_image_driver>limits)
+          { 
+            $("#futter_box").css("position","fixed");
+            $("#futter_box").css("bottom","0px");
+          }  
+          else
+          { 
+            $("#futter_box").css("position","absolute");
+            $("#futter_box").css("bottom","auto");
+          }  
+     }
+
+
+  
+
+   }
+   var lft_logo=60, pic=''; 
+//   $("#main_page").css("width",w_main+'px'); 
+
+
+}
+
+
+
+function show_passw()
+{
+     var a=$("#passwd").attr("type");
+     if (a=='password')
+       $("#passwd").prop("type",'text');
+     else 
+       $("#passwd").prop("type",'password');  
+
+}
+
+function login_change()
+{
+    var l=$.trim($("#login").val());
+    if (l.length>0)
+        $("#lebel_login").show();
+    else
+        $("#lebel_login").hide();
+}
+
+
+function pass_change()
+{
+    var l=$.trim($("#passwd").val());
+    if (l.length>0)
+        $("#lebel_passwd").show();
+    else
+        $("#lebel_passwd").hide();
+}
+
+
+
+function myOnLoad()
+{
+  var begin_time=$("#begin_time").val();
+  if (begin_time>'0')
+  {  
+    $.post("/inc/load_microtime.php",{tm:begin_time},function(data)
+    {
+//      $("#set_load_time").html(data);
+      $("#set_load_time").attr("title",data+" сек.");
+      $("#begin_time").val('0');
+
+         
+    });
+  }  
+    
+}
+
+
+function close_all()
+{
+  $("#body_ish").css('overflow', 'visible');
+}
+
+
+
+function cloase_all()
+{
+     $("#gdi").css("display","none");
+}
+
+function zakr_pelena()
+{  close_all();
+   $("#pelena").fadeOut();
+   
+}
+
+function zakr_pelena1()
+{  close_all();
+   $("#pelena1").fadeOut();
+   
+}
+
+function zakr_pelena2()
+{  close_all();
+   $("#pelena2").fadeOut();
+   
+}
+
+
+function zakr_pelena_tit()
+{  close_all();
+   $("#body_ish").css('overflow', 'visible');
+   $("#pelena_tit").fadeOut();
+   
+}
+
+
+
+function cls_tit_albom()
+{
+    
+           setTimeout(function() 
+           {
+             add_new_service_al();
+             zakr_pelena_tit();
+             $("#gdi").hide();
+           }, 500);
+}
+
+
+function cls_tit_albom_st()
+{
+    
+           setTimeout(function() 
+           {
+             add_new_service_al_st();
+             zakr_pelena_tit();
+             $("#gdi").hide();
+           }, 500);
+}
+
+ 
+function close_tituls()
+{
+  //    $("#gdi").show();
+      $('#show_div_tit').fadeOut(); 
+      $('#pelena_tit').fadeOut();
+      $('#show_div_content_tit').html('');
+      $('#body_ish').css('overflow', 'visible');
+      var npp=$("#npp_vkladka").val();
+      var npp_vkladka=$("#vkladka").val();
+      var tag=$("#kn_closes_tit").attr('tag')-0;
+      var dip=$("#kn_closes_tit").attr('dip')-0;
+//      console.log(tag+'dip='+dip);
+      if (tag==6)
+      {  
+
+       if (dip==10) 
+        cls_tit_albom();
+       else
+        if (dip==11) 
+          cls_tit_albom_st();
+        $("#kn_closes_tit").attr('tag','0');
+        $("#kn_closes_tit").attr('dip','0');
+      }  
+
+}
+
+function zakr_pelena_tit1()
+{  close_all();
+   $("#body_ish").css('overflow', 'visible');
+   $("#pelena_tit1").fadeOut();
+}
+
+function zakr_pelena_tit0()
+{  close_all();
+   $("#body_ish").css('overflow', 'visible');
+   $("#pelena_tit0").fadeOut();
+}
+
+function zakr_pelena_tit01()
+{  $("#pelena_tit01").fadeOut();
+}
+
+
+function zakr_pelena_tit2()
+{  close_all();
+   $("#body_ish").css('overflow', 'visible');
+   $("#pelena_tit2").fadeOut();
+}
+
+
+function gdi_none()
+{
+  $("#gdi").css("display","none");
+} 
+ 
+
+function check_entry()
+{
+     var parametr=$("#parametr").val();
+     var tip=$("#parametr").attr('tip');
+     var l=$.trim($("#login").val()), p=$.trim($("#passwd").val()), i=0;
+     var idc=$("#idc").val();
+     var id_oder=$("#id_order").val()-0;
+
+     if (l.length==0)
+     {
+       $("#login").css("border","2px red solid");
+       i=1;
+     } 
+     else
+        $("#login").css("border","2px #fff solid");
+
+
+     if (p.length==0)
+     {
+       $("#passwd").css("border","2px red solid");
+       i=1;
+     } 
+     else
+        $("#passwd").css("border","2px #fff solid");
+
+    if (i==0)
+    {
+         $.post("/inc/avtoriz.php",{login:l, pwd:p},function(data)
+         {
+
+             var st=parseInt(data);
+             if  (st>0)
+             {  
+                if (st==999)
+                {
+                      document.location.replace('.');  
+                } 
+                else
+                if (tip=='order'  && id_oder>0)
+                    document.location.replace('/order/'+id_oder);
+
+                else    
+                if (tip=='profi')
+                    document.location.replace('/payprofi/'+parametr);
+                else
+                    if (idc>0 && st==1)
+                    {
+                        $.post("/public/enterprises/showinfo_one/set_company_session.php",{idc:idc},function(data)
+                        {
+                          document.location.replace('/enterprise/'+idc);
+                        });  
+                    }
+                else        
+                    document.location.replace('/kabinet');
+             }   
+             else
+             {
+                if (st==-999)
+                {
+//                  console.log(data);
+                   $.post("/public/registration_best/registration_not_straccess.php",{email:l}, function(dat)
+                   {
+                      $("#entry_div").html(dat);  
+                   });
+                }
+                else
+                if (st==-2)
+                {
+                   $.post("/public/registration_best/registration_ret_str.php",function(dats)
+                   { location.href='/?key=acknow&cript='+dats;
+                   });  
+                }    
+                else
+                {
+                  alert('Неверная авторизация'); 
+                  console.log(data);
+                }  
+              }   
+         });
+    }
+
+}
+
+
+
+function anishow (objName) 
+{
+  if ( $(objName).css('display') == 'none' )
+    $(objName).show();
+  else
+    $(objName).hide();
+}
+
+
+function anichange(objName) {
+    if ($(objName).is(':visible'))
+        $(objName).animate({height: 'hide'}, 300);
+    else
+        $(objName).animate({height: 'show'}, 300);
+}
+
+
+
+function anichange_mob(objName) 
+{
+    $(objName).stop(true, true).toggle('blind', 300); // 'blind' создает эффект развертывания/свертывания
+}
+
+
+function openWin(aaa) 
+{
+    msgWindow= open(aaa)
+} 
+
+
+  function take_bufer(item)
+  {
+   // Копируем текст в буфер обмена с помощью jQuery
+  try {
+    // Создаем временный элемент input
+    var $temp = $("<input>");
+    $("body").append($temp);
+    // Устанавливаем значение и выделяем его
+    $temp.val(item).select();
+    // Выполняем команду копирования
+    document.execCommand("copy");
+    // Удаляем временный элемент
+    $temp.remove();
+    // Выводим сообщение об успехе
+
+    mess('Текст <font color=red>'+item+'</font> скопирован в буфер обмена');
+  } catch (err) {
+    // Обработка ошибки
+    mess('Ошибка при копировании: ' + err);
+  }
+  } 

@@ -1,0 +1,108 @@
+     // Определение координат Селектор - обязательно только id элемента
+    function getYaKoordinats( address , id_selector )
+    {
+      if ( typeof id_selector == 'string' && id_selector.length >1 )
+      { 
+          var myGeocoder = ymaps.geocode( address , {json:true} );
+          myGeocoder.then(function (res) 
+          {     if ( typeof res.GeoObjectCollection.featureMember[0] != 'undefined' )
+                   $("#"+id_selector).html(res.GeoObjectCollection.featureMember[0].GeoObject.Point.pos);
+                else           
+                  $("#"+id_selector).html('');
+          },
+          function (err) 
+          {
+             $("#"+id_selector).html('');
+          });
+        } 
+    }
+
+
+    function getRTKoordinats( adr , id_out )
+    {
+        adr=adr+' '; 
+        $.post('inc/rt_maps/get_koordinatsNP.php',{adr:adr},function(data)
+        {
+            console.log(adr, data);
+          if (id_out)
+            $("#"+id_out).html(data);
+          return (data);   
+        });              
+           
+    }
+
+
+
+ // определение метро, округ Москвы
+ function getYaAdrInfo(adr,search,count,id_out) 
+ {
+    /* search = 'metro', // метро 
+                'district', // округ
+                'house', // дом
+                'street', // улица
+                'locality' // населённый пункт
+   */  
+    $.post('inc/rt_maps/get_raionNP.php',{adr:adr},function(data)
+    {
+      if (id_out)
+        $("#"+id_out).html(data);
+      return (data);   
+    });                 
+     
+    
+
+  }     
+
+ function getRTAdrRay(adr,id_out) 
+ {
+    /* search = 'metro', // метро 
+                'district', // округ
+                'house', // дом
+                'street', // улица
+                'locality' // населённый пункт
+   */  
+    $.post('inc/rt_maps/get_raionNP.php',{adr:adr},function(data)
+    {
+      if (id_out)
+        $("#"+id_out).html(data);
+      return (data);   
+    });              
+     
+    
+
+  }    
+
+
+ function getYaAdrInfo_old(addr,search,count,id_out) 
+ {
+    /* search = 'metro', // метро
+                'district', // округ
+                'house', // дом
+                'street', // улица
+                'locality' // населённый пункт
+   */                
+    $('#map').html('');
+    ymaps.geocode(addr, { results: 1 }).then(function (res) 
+    {   var metrostans='';
+        var firstGeoObject = res.geoObjects.get(0),
+            myMap = new ymaps.Map("map", 
+            {
+                center: firstGeoObject.geometry.getCoordinates(),
+                zoom: 12
+            });
+        ymaps.geocode(myMap.getCenter(), 
+        {
+            kind: search,
+            boundedBy: myMap.getBounds(),
+            results: count
+        }).then(function (res) 
+        {
+            res.geoObjects.each(function (obj) 
+            {
+              if(metrostans != '') metrostans = metrostans + ', ';
+              metrostans = metrostans+obj.properties.get('name');
+            });
+            $("#"+id_out).html(metrostans); 
+        });
+    });
+  }    

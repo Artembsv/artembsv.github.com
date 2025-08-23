@@ -1,0 +1,77 @@
+.item_select { 
+               color:rgba(0, 0, 0, 0.7);
+               font-size:14px; text-align:left; 
+               margin: 0;  padding: 2px;
+               cursor:pointer;
+               background-color: #F7FAF5;
+               z-index:1;
+               
+               padding-left:5px;  font-size:14px;
+
+}             
+.item_select:hover {color:red;}
+
+
+.item_select_mob { 
+               color:rgba(0, 0, 0, 0.7);
+               font-size:15px; text-align:left; 
+               margin: 0;  padding: 2px;
+               cursor:pointer;
+               background-color: #fff;
+               z-index:1;
+               font-family: ProximaSemi;
+               padding-left:5px;  font-size:14px;
+
+}             
+.item_select_mob:hover {color:#003B80;}
+
+
+.item_select_1 { 
+               color:rgba(0, 0, 0, 0.7);
+               font-size:14px; text-align:left; 
+               margin: 0;  padding: 2px;
+               cursor:pointer;
+               z-index:1; color: #F7FAF5;
+               
+               padding-left:5px;  font-size:14px;
+
+}             
+.item_select_1:hover {color:#F6A500;}
+
+
+#background-color:rgba(255,204,1,0.5)
+
+.ed_maininput {height:33px; width:270px;  border:1px rgba(0, 0, 0, 0.25) solid;
+                color:rgba(0, 0, 0, 0.9);
+                  font-size:16px; text-align:left; 
+                  margin: 0;  padding-left: 2px;
+                  text-indent:4px; padding-right:20px;
+                  line-height:33px;
+                  cursor:pointer;
+}
+.sel_IconDown { background:url(../images/svg/down.svg) no-repeat  left top; width:20px; height:20px; border:0px; cursor:pointer;}
+.sel_IconUp { background:url(../images/svg/up.svg) no-repeat  left top; width:20px; height:20px; border:0px; cursor:pointer;}
+
+
+.select_box_mob {  border:1px #003B80 solid;
+               color:rgba(0, 0, 0, 0.5);
+               border-radius:4px;
+               font-size:14px; text-align:left; 
+               margin: 0;  padding: 0px;
+               position:absolute;
+               background-color: #fff; z-index:1;
+
+}
+
+
+
+.select_box {  border:1px rgba(0, 0, 0, 0.25) solid;
+               color:rgba(0, 0, 0, 0.5);
+               font-size:14px; text-align:left; 
+               margin: 0;  padding: 0px;
+               position:absolute;
+               background-color: #fff; z-index:1;
+               box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);  
+
+}
+

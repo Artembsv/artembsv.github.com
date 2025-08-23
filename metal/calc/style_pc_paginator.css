@@ -1,0 +1,55 @@
+
+.navigation_pc{ font-family: 'ProximaSemi';height:31px; min-width:26px;width:auto; font-size:13px; float:left;  }
+.navigation_pc a:link,
+.navigation_pc a:visited,
+.navigation_pc a:active { font-family: 'ProximaB';line-height:13px; text-decoration:none;  
+                       padding:4px 8px;  font-size:13px; 
+                       color:#B8C3B1; 
+                      
+                      background:#F7FAF5 url(../  ) repeat-x;
+                      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.7);
+                       -webkit-box-shadow:0 1px 2px #777;
+                       -moz-box-shadow:0 1px 2px #777;
+                      
+                     
+
+
+                     }
+.navigation_pc a:hover  { background:#F15A24;  color:#fff; text-decoration:none;}
+
+
+
+
+.navigation1_pc{ font-family: 'ProximaB';height:31px; min-width:26px;width:auto; font-size:13px; float:left;  }
+.navigation1_pc a:link,
+.navigation1_pc a:visited,
+.navigation1_pc a:active { font-family: 'ProximaB';line-height:13px; text-decoration:none;  
+                       padding:4px 8px;  font-size:13px; 
+                       color:#005AA9; 
+                      
+                      background:#F7FAF5 url(../  ) repeat-x;
+                      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.7);
+                       -webkit-box-shadow:0 1px 2px #777;
+                       -moz-box-shadow:0 1px 2px #777;
+                      
+                     
+
+
+                     }
+.navigation1_pc a:hover  { background:#F15A24;  color:#fff; text-decoration:none; text-shadow: 1px 1px 1px  #000;}
+
+.sel_paginator {font-size:13px;cursor:pointer; 
+       text-align:center; padding-left:5px; margin-left:-7px;
+       font-family: 'ProximaB';
+       width:auto;   height:26px; padding-top:1px; background-color:#fff;
+       margin-top:0px;  font-size:14px;
+       padding-bottom:1px;text-align:center; 
+       border:0px; 
+       border-radius: 0px; 
+       border:1px #efefef solid;
+      }
+.sel_paginator:hover {color:#F15A24;}                                          
+
+
+
+
