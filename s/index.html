@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- <script src="https://raw.github.com/bigomega/crypto.js/master/src/md5.js"></script> -->
+    <script src="https://raw.github.com/bigomega/crypto.js/master/src/aes.js"></script>
+    <script>
+            // var hash = CryptoJS.MD5("Message");
+            // console.log('hash - ' + hash)
+        var encrypted = CryptoJS.AES.encrypt("Message", "SecretPassphrase");
+        console.log('encrypted - ' + encrypted)
+        var decrypted = CryptoJS.AES.decrypt(encrypted, "SecretPassphrase");
+        console.log('decrypted - ' + decrypted)
+    </script>
+</body>
+
+</html>
