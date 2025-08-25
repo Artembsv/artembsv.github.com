@@ -1,23 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
 </head>
 
 <body>
-    <!-- <script src="https://raw.github.com/bigomega/crypto.js/master/src/md5.js"></script> -->
-    <script src="https://raw.github.com/bigomega/crypto.js/master/src/aes.js"></script>
-    <script>
-            // var hash = CryptoJS.MD5("Message");
-            // console.log('hash - ' + hash)
-        var encrypted = CryptoJS.AES.encrypt("Message", "SecretPassphrase");
-        console.log('encrypted - ' + encrypted)
-        var decrypted = CryptoJS.AES.decrypt(encrypted, "SecretPassphrase");
-        console.log('decrypted - ' + decrypted)
-    </script>
+
+    <form id="form_pass">
+        <input type="password" id="pass" name="pass" placeholder="Введите пароль">
+        <input type="submit" id="btn_pass" value="Сохранить">
+        <input type="button" id="reset_pass" value="Сбросить">
+    </form>
+
+    <br>
+<div id="test">414755424449</div>
+<br><br>
+<div id="test2"></div>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="./script.js"></script>
 </body>
 
 </html>
