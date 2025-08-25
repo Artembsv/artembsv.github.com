@@ -37,9 +37,11 @@ $('#reset_pass').on('click', () => {
 })
 
 
-
-
-
+let testt = crypt(pass,`lol
+dol`);
+console.log('testt - '+testt);
+let testt2 = decrypt(pass,testt);
+console.log('testt2 - '+testt2)
 
 function getUrlParameter(name) {  
     const urlParams = new URLSearchParams(window.location.search);  
@@ -60,7 +62,6 @@ $.get("https://docs.google.com/spreadsheets/d/1Qm7b9K4zlJYb4OmaNooxES7khuL97JORD
         $('#dannye').val(decrypt(pass,data));
     }
 
-    // https://script.google.com/macros/s/AKfycbxxpWmA5GjhdHoBsKBqWco0lz4kvtqmyROT8MgDEIx0CrOvA1nkG-NQv-Vin3wAmXVJ/exec
 
 
 })
@@ -68,9 +69,9 @@ $.get("https://docs.google.com/spreadsheets/d/1Qm7b9K4zlJYb4OmaNooxES7khuL97JORD
 let st = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
 $('#form_edit').on('submit', function (e) {
     e.preventDefault();
-$.get("https://script.google.com/macros/s/AKfycbxxpWmA5GjhdHoBsKBqWco0lz4kvtqmyROT8MgDEIx0CrOvA1nkG-NQv-Vin3wAmXVJ/exec?s="+(parseInt($('#num_stroki').val())+1)+"&t="+st[$('#num_stolb').val()]+"&d="+crypt(pass,$('#dannye').val()), function () {
-}).then(function (e) {
-    alert('Сохранено');
-    location.reload();
+$.get("https://script.google.com/macros/s/AKfycbzFsJaPD2JGmVInUHR7PI1pOalxt7V0wcJofcEn3Bj_4d0bMFYU9UwavYXK9Jg_2v4/exec?s="+(parseInt($('#num_stroki').val())+1)+"&t="+st[$('#num_stolb').val()]+"&d="+crypt(pass,$('#dannye').val()), function (res) {
+    console.log(res);
+        alert('Сохранено');
+        // location.reload();
 })
 })

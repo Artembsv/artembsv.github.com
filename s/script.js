@@ -47,10 +47,9 @@ $.get("https://docs.google.com/spreadsheets/d/1Qm7b9K4zlJYb4OmaNooxES7khuL97JORD
     $.each(es, function (index, value) {
         arr[index] = value.split(",");
     });
-    console.table(arr);
     $.each(arr, function (arr_index, arr_value) {
         $('#table').append("<tr>");
-
+        $('#table').append("<tr>");
         $.each(arr_value, function (arr_index_index, arr_value_value) {
             if(arr_index_index == 0){
                 $('#table').append("<td><a href='./fix.html?s=" + arr_index + "' target='_blank'>" + arr_index + "</a></td>");
@@ -59,7 +58,7 @@ $.get("https://docs.google.com/spreadsheets/d/1Qm7b9K4zlJYb4OmaNooxES7khuL97JORD
             if(((typeof arr_value_value) == 'undefined') || (arr_value_value.length < 1)){
                 result = '';
             } else {
-                result = decrypt(pass,arr_value_value);
+                result = decrypt(pass,arr_value_value).split('\n')[0];
             }
             $('#table').append("<td><a href='./fix.html?s=" + arr_index + "&t=" + arr_index_index + "' target='_blank'>" + result + "</a></td>");
         })
