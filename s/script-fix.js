@@ -40,6 +40,14 @@ $('#reset_pass').on('click', () => {
 
 
 
+
+function getUrlParameter(name) {  
+    const urlParams = new URLSearchParams(window.location.search);  
+    return urlParams.get(name);  
+}
+$('#num_stroki').val(getUrlParameter('s'));
+$('#num_stolb').val(getUrlParameter('t'));
+
 $.get("https://docs.google.com/spreadsheets/d/1Qm7b9K4zlJYb4OmaNooxES7khuL97JORDx8zmQjpU44/export?format=csv&gid=0", function () {
 }).then(function (e) {
     es = e.split("\r\n");
@@ -47,26 +55,22 @@ $.get("https://docs.google.com/spreadsheets/d/1Qm7b9K4zlJYb4OmaNooxES7khuL97JORD
     $.each(es, function (index, value) {
         arr[index] = value.split(",");
     });
-    console.table(arr);
-    $.each(arr, function (arr_index, arr_value) {
-        $('#table').append("<tr>");
+    if((getUrlParameter('s'))&&(getUrlParameter('t'))){
+        let data = arr[getUrlParameter('s')][getUrlParameter('t')];
+        $('#dannye').val(decrypt(pass,data));
+    }
 
-        $.each(arr_value, function (arr_index_index, arr_value_value) {
-            if(arr_index_index == 0){
-                $('#table').append("<td><a href='./fix.html?s=" + arr_index + "' target='_blank'>" + arr_index + "</a></td>");
-            }
-            let result;
-            if(((typeof arr_value_value) == 'undefined') || (arr_value_value.length < 1)){
-                result = '';
-            } else {
-                result = decrypt(pass,arr_value_value);
-            }
-            $('#table').append("<td><a href='./fix.html?s=" + arr_index + "&t=" + arr_index_index + "' target='_blank'>" + result + "</a></td>");
-        })
+    // https://script.google.com/macros/s/AKfycbxxpWmA5GjhdHoBsKBqWco0lz4kvtqmyROT8MgDEIx0CrOvA1nkG-NQv-Vin3wAmXVJ/exec
 
-        $('#table').append("</tr>");
-    })
+
 })
 
-
-
+let st = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+$('#form_edit').on('submit', function (e) {
+    e.preventDefault();
+$.get("https://script.google.com/macros/s/AKfycbxxpWmA5GjhdHoBsKBqWco0lz4kvtqmyROT8MgDEIx0CrOvA1nkG-NQv-Vin3wAmXVJ/exec?s="+(parseInt($('#num_stroki').val())+1)+"&t="+st[$('#num_stolb').val()]+"&d="+crypt(pass,$('#dannye').val()), function () {
+}).then(function (e) {
+    alert('Сохранено');
+    location.reload();
+})
+})
