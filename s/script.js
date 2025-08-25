@@ -47,8 +47,8 @@ $.get("https://docs.google.com/spreadsheets/d/1Qm7b9K4zlJYb4OmaNooxES7khuL97JORD
     $.each(es, function (index, value) {
         arr[index] = value.split(",");
     });
+    $('#table').append("<tr><td></td><td>A</td><td>B</td><td>C</td><td>D</td></tr>");
     $.each(arr, function (arr_index, arr_value) {
-        $('#table').append("<tr>");
         $('#table').append("<tr>");
         $.each(arr_value, function (arr_index_index, arr_value_value) {
             if(arr_index_index == 0){
@@ -62,7 +62,6 @@ $.get("https://docs.google.com/spreadsheets/d/1Qm7b9K4zlJYb4OmaNooxES7khuL97JORD
             }
             $('#table').append("<td><a href='./fix.html?s=" + arr_index + "&t=" + arr_index_index + "' target='_blank'>" + result + "</a></td>");
         })
-
         $('#table').append("</tr>");
     })
 })
