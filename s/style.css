@@ -1,0 +1,111 @@
+    body {
+        margin: 0;
+    }
+
+    .preloader {
+        display: none;
+        transition: 0.3s opacity;
+        opacity: 0;
+        /*фиксированное позиционирование*/
+        position: fixed;
+        /* координаты положения */
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        /* фоновый цвет элемента */
+        background: #e0e0e0b5;
+        /* размещаем блок над всеми элементами на странице (это значение должно быть больше, чем у любого другого позиционированного элемента на странице) */
+        z-index: 1001;
+    }
+
+    .preloader__row {
+        position: relative;
+        top: 50%;
+        left: 50%;
+        width: 70px;
+        height: 70px;
+        margin-top: -35px;
+        margin-left: -35px;
+        text-align: center;
+        animation: preloader-rotate 2s infinite linear;
+    }
+
+    .preloader__item {
+        position: absolute;
+        display: inline-block;
+        top: 0;
+        background-color: #337ab7;
+        border-radius: 100%;
+        width: 35px;
+        height: 35px;
+        animation: preloader-bounce 2s infinite ease-in-out;
+    }
+
+    .preloader__item:last-child {
+        top: auto;
+        bottom: 0;
+        animation-delay: -1s;
+    }
+
+    @keyframes preloader-rotate {
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    @keyframes preloader-bounce {
+
+        0%,
+        100% {
+            transform: scale(0);
+        }
+
+        50% {
+            transform: scale(1);
+        }
+    }
+
+    .preloader_yes .preloader {
+        display: block;
+        opacity: 1;
+    }
+
+
+
+
+
+    #table td {
+        zoom: 1;
+    }
+
+    .zoom .data {
+        zoom: 2 !important;
+    }
+
+    .zoom .nav {
+        display: block;
+    }
+
+    .nav {
+        display: none;
+    }
+
+    .data_edit {
+        display: none;
+    }
+
+    td#new_row span {
+        font-size: 35px;
+        line-height: 25px;
+        cursor: pointer;
+    }
+
+    td#new_row div {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #table {
+    background: #f6f6f6;
+}

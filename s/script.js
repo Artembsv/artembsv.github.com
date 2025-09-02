@@ -1,29 +1,19 @@
-function crypt(salt, text) {
-    const textToChars = (text) => text.split("").map((c) => c.charCodeAt(0));
-    const byteHex = (n) => ("0" + Number(n).toString(16)).substr(-2);
-    const applySaltToChar = (code) => textToChars(salt).reduce((a, b) => a ^ b, code);
+var bd = [];
+window.onload = function () {
+    $('body').addClass('preloader_yes');
+    window.setTimeout(function () {
+        $('body').removeClass('preloader_yes');
+        if (localStorage.getItem('data')) {
+            bd = JSON.parse(localStorage.getItem('data'));
+            table_e_data(bd);
+        }
+    }, 500);
+}
 
-    return text
-        .split("")
-        .map(textToChars)
-        .map(applySaltToChar)
-        .map(byteHex)
-        .join("");
-};
+const secretKey = (localStorage.getItem('pass')) ? localStorage.getItem('pass') : '';
+const simpleCrypto = new SimpleCrypto(secretKey)
 
-function decrypt (salt, encoded) {
-    const textToChars = (text) => text.split("").map((c) => c.charCodeAt(0));
-    const applySaltToChar = (code) => textToChars(salt).reduce((a, b) => a ^ b, code);
-    return encoded
-        .match(/.{1,2}/g)
-        .map((hex) => parseInt(hex, 16))
-        .map(applySaltToChar)
-        .map((charCode) => String.fromCharCode(charCode))
-        .join("");
-};
-
-const pass = (localStorage.getItem('pass'))?localStorage.getItem('pass'):'';
-
+// Окно ввода токена
 $('#form_pass').on('submit', function (e) {
     e.preventDefault();
     let pass = $('#pass').val();
@@ -33,38 +23,157 @@ $('#form_pass').on('submit', function (e) {
 
 $('#reset_pass').on('click', () => {
     localStorage.setItem('pass', '');
+    $('#table').html("");
     location.reload();
 })
 
-
-
-
-
-$.get("https://docs.google.com/spreadsheets/d/1Qm7b9K4zlJYb4OmaNooxES7khuL97JORDx8zmQjpU44/export?format=csv&gid=0", function () {
-}).then(function (e) {
-    es = e.split("\r\n");
-    let arr = [];
-    $.each(es, function (index, value) {
-        arr[index] = value.split(",");
-    });
-    $('#table').append("<tr><td></td><td>A</td><td>B</td><td>C</td><td>D</td></tr>");
-    $.each(arr, function (arr_index, arr_value) {
-        $('#table').append("<tr>");
-        $.each(arr_value, function (arr_index_index, arr_value_value) {
-            if(arr_index_index == 0){
-                $('#table').append("<td><a href='./fix.html?s=" + arr_index + "' target='_blank'>" + arr_index + "</a></td>");
-            }
-            let result;
-            if(((typeof arr_value_value) == 'undefined') || (arr_value_value.length < 1)){
-                result = '';
-            } else {
-                result = decrypt(pass,arr_value_value).split('\n')[0];
-            }
-            $('#table').append("<td><a href='./fix.html?s=" + arr_index + "&t=" + arr_index_index + "' target='_blank'>" + result + "</a></td>");
-        })
-        $('#table').append("</tr>");
+function load_table() {
+    $('body').addClass('preloader_yes');
+    $.get("https://script.google.com/macros/s/AKfycbzFsJaPD2JGmVInUHR7PI1pOalxt7V0wcJofcEn3Bj_4d0bMFYU9UwavYXK9Jg_2v4/exec?action=getTasks", function () {
+    }).then(function (e) {
+        table_e_data(e);
+        localStorage.setItem('data', JSON.stringify(e));
+        $('body').removeClass('preloader_yes');
     })
+}
+$('#load_table').on('click', () => {
+    load_table();
 })
 
+function table_e_data(e) {
+    // $.each($('#table td'), function (arr_index, arr_value) {
+    //     if($(arr_value).find('textarea').val() != $(arr_value).find('.data').html()) $(arr_value).find('.data').html($(arr_value).find('textarea').val());
+    // })
+    // }
+    $('#table').html("");
+    $('#table').append("<tr><td id='new_row'><div><textarea></textarea></div><span>+</span></td></tr>");
+    $.each(e, function (arr_index, arr_value) {
+        let roww = simpleCrypto.decrypt(arr_value[0]);
+        let roww_split = String(roww);
+        if (roww_split.includes('\n')) roww_split = roww.split('\n')[0];
+        $('#table').append(`
+            <tr>
+                <td><div class="data">` + roww_split + `</div>
+                    <textarea class="data_edit">` + roww + `</textarea>
+                    <div class="nav">
+                        <input type="button" class="svern_row" value="Сверн.">
+                        <input type="button" class="edit_row" value="Ред.">
+                        <input type="button" class="up_first_row" value="Вверх нач.">
+                        <input type="button" class="up_row" value="Вверх">
+                        <input type="button" class="down_row" value="Вниз">
+                        <input type="button" class="down_last_row" value="Вниз кон.">
+                    </div>
+                </td>
+            </tr>
+            `);
+    })
+    work_table();
+}
 
+function work_table() {
+    $('#table .data').on('click', function () {
+        let i = false; its = $(this).closest('td');
+        if(($('#table td').hasClass('zoom'))&&(!its.hasClass('zoom'))){
+            if(its.find('textarea').css('display') != 'none') its.find('.data').html(its.find('textarea').val());
+            table_e_data(bd)
+            return;
+        }
+        if(!its.hasClass('zoom')){
+            its.addClass('zoom')
+        } else if (!its.hasClass('zoom_in')) {
+            its.addClass('zoom_in');
+            its.find('.data').html(its.find('.data_edit').val());
+        }
+    })
+
+    $('.edit_row').on('click', function () {
+        $(this).closest('td').children('.data_edit').toggle();
+        $(this).closest('td').children('.data').html($(this).closest('td').children('.data_edit').val());
+    })
+
+    $('#new_row span').on('click', function () {
+        $('#new_row div').append(`<textarea></textarea>`)
+    })
+
+        
+    $('.svern_row').on('click', function () {
+        table_e_data(bd)
+    })
+
+    $('.up_first_row').on('click', function () {
+        let bd_new = [];
+        let thisis = $(this).closest('tr').index();
+        bd_new.push(bd[thisis - 1]);
+        $.each(bd, function (arr_index, arr_value) {
+            if(arr_index != (thisis-1)) bd_new.push(arr_value);
+        })
+        bd = bd_new;
+        localStorage.setItem('data', JSON.stringify(bd));
+        table_e_data(bd);
+        its = $('#table td').eq(1);
+        its.addClass('zoom')
+    })
+
+    $('.down_last_row').on('click', function () {
+        let bd_new = [];
+        let thisis = $(this).closest('tr').index();
+        $.each(bd, function (arr_index, arr_value) {
+            if(arr_index != (thisis-1)) bd_new.push(bd[arr_index]);
+        })
+        bd_new.push(bd[thisis - 1]);
+        bd = bd_new;
+        localStorage.setItem('data', JSON.stringify(bd));
+        table_e_data(bd);
+        its = $('#table td').eq(-1);
+        its.addClass('zoom')
+    })
+
+    $('.up_row').on('click', function () {
+        let thisis = $(this).closest('tr').index();
+        if(thisis == 1) return;
+        let temp = bd[thisis - 2];
+        bd[thisis - 2] = bd[thisis - 1];
+        bd[thisis - 1] = temp;
+        localStorage.setItem('data', JSON.stringify(bd));
+        table_e_data(bd);
+        its = $('#table td').eq(thisis-1);
+        its.addClass('zoom')
+    })
+    
+    $('.down_row').on('click', function () {
+        let thisis = $(this).closest('tr').index()-1;
+        if(thisis == ($('#table td').length-2)) return;
+        let temp = bd[thisis+1];
+        bd[thisis+1] = bd[thisis];
+        bd[thisis] = temp;
+        localStorage.setItem('data', JSON.stringify(bd));
+        table_e_data(bd);
+        its = $('#table td').eq(thisis+2);
+        its.addClass('zoom')
+    })
+}
+
+
+
+$('#upload_table').on('click', () => {
+    let mass_ = [];
+    $.each($('#table textarea'), function (arr_index, arr_value) {
+        if ($(arr_value).val() != '') mass_.push(simpleCrypto.encrypt($(arr_value).val()));
+    })
+    var mass = { 'data': mass_ };
+
+    $('body').addClass('preloader_yes');
+    let formData = {
+        'action': 'updateTask',
+        'contentType': 'application/json',
+        'dannye': JSON.stringify(mass)
+    }
+    $.post("https://script.google.com/macros/s/AKfycbzFsJaPD2JGmVInUHR7PI1pOalxt7V0wcJofcEn3Bj_4d0bMFYU9UwavYXK9Jg_2v4/exec", formData, function (data) { //  передаем и загружаем данные с сервера с помощью HTTP запроса методом POST
+        if (data == 'Данные выгрузены!') {
+            $('body').removeClass('preloader_yes');
+            bd = mass_;
+            alert('Данные выгрузены!');
+        }
+    })
+})
 

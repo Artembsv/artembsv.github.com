@@ -8,20 +8,30 @@
 </head>
 
 <body>
+    <!-- Прелоадер -->
+    <div class="preloader">
+        <div class="preloader__row">
+            <div class="preloader__item"></div>
+            <div class="preloader__item"></div>
+        </div>
+    </div>
 
     <form id="form_pass">
-        <input type="password" id="pass" name="pass" placeholder="Введите пароль">
+        <input type="password" id="pass" name="pass" placeholder="Токен">
         <input type="submit" id="btn_pass" value="Сохранить">
         <input type="button" id="reset_pass" value="Сбросить">
-        <a target="_blank" href="https://docs.google.com/spreadsheets/d/1Qm7b9K4zlJYb4OmaNooxES7khuL97JORDx8zmQjpU44/edit#gid=0">&nbsp;Ссылка на таблицу</a>
+        <a target="_blank"
+            href="https://docs.google.com/spreadsheets/d/1Qm7b9K4zlJYb4OmaNooxES7khuL97JORDx8zmQjpU44/edit#gid=0">&nbsp;Ссылка
+            на таблицу</a>
     </form>
+    <input type="button" id="load_table" value="Загрузить">
+    <input type="button" id="upload_table" value="Выгрузить">
+    <table id="table" border="1"></table>
 
-<table id="table" border="1"></table>
 
-
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src="./script.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/simple-crypto-js@2.5.0/dist/SimpleCrypto.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="./script.js"></script>
 </body>
 
 </html>
