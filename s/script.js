@@ -25,6 +25,7 @@ $('#form_pass').on('submit', function (e) {
 
 $('#reset_pass').on('click', () => {
     localStorage.setItem('pass', '');
+    localStorage.setItem('data', '');
     $('#table').html("");
     location.reload();
 })
@@ -33,7 +34,8 @@ function load_table() {
     $('body').addClass('preloader_yes');
     $.get("https://script.google.com/macros/s/AKfycbzFsJaPD2JGmVInUHR7PI1pOalxt7V0wcJofcEn3Bj_4d0bMFYU9UwavYXK9Jg_2v4/exec?action=getTasks", function () {
     }).then(function (e) {
-        console.log(e);
+        // console.log(e);
+        bd = e;
         table_e_data(e);
         localStorage.setItem('data', JSON.stringify(e));
         $('body').removeClass('preloader_yes');
@@ -47,7 +49,7 @@ function table_e_data(e) {
     $('#table').html("");
     $('#table').append("<tr><td id='new_row'><div><textarea></textarea></div><span>+</span></td></tr>");
     $.each(e, function (arr_index, arr_value) {
-        console.log(arr_value[0])
+        console.log(e)
         let roww = simpleCrypto.decrypt(arr_value[0]);
         let roww_split = String(roww);
         if (roww_split.includes('\n')) roww_split = '>'+roww.split('\n')[0];
