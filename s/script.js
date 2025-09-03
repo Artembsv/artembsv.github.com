@@ -6,6 +6,8 @@ window.onload = function () {
         if (localStorage.getItem('data')) {
             bd = JSON.parse(localStorage.getItem('data'));
             table_e_data(bd);
+        } else {
+            $('#table').append("<tr><td id='new_row'><div><textarea></textarea></div><span>+</span></td></tr>");
         }
     }, 500);
 }
@@ -31,6 +33,7 @@ function load_table() {
     $('body').addClass('preloader_yes');
     $.get("https://script.google.com/macros/s/AKfycbzFsJaPD2JGmVInUHR7PI1pOalxt7V0wcJofcEn3Bj_4d0bMFYU9UwavYXK9Jg_2v4/exec?action=getTasks", function () {
     }).then(function (e) {
+        console.log(e);
         table_e_data(e);
         localStorage.setItem('data', JSON.stringify(e));
         $('body').removeClass('preloader_yes');
@@ -41,20 +44,17 @@ $('#load_table').on('click', () => {
 })
 
 function table_e_data(e) {
-    // $.each($('#table td'), function (arr_index, arr_value) {
-    //     if($(arr_value).find('textarea').val() != $(arr_value).find('.data').html()) $(arr_value).find('.data').html($(arr_value).find('textarea').val());
-    // })
-    // }
     $('#table').html("");
     $('#table').append("<tr><td id='new_row'><div><textarea></textarea></div><span>+</span></td></tr>");
     $.each(e, function (arr_index, arr_value) {
+        console.log(arr_value[0])
         let roww = simpleCrypto.decrypt(arr_value[0]);
         let roww_split = String(roww);
-        if (roww_split.includes('\n')) roww_split = roww.split('\n')[0];
+        if (roww_split.includes('\n')) roww_split = '>'+roww.split('\n')[0];
         $('#table').append(`
             <tr>
                 <td><div class="data">` + roww_split + `</div>
-                    <textarea class="data_edit">` + roww + `</textarea>
+                    <div class="data_edit"><textarea>` + roww + `</textarea><br><input type="button" class="save_row" value="Сохр."></div>
                     <div class="nav">
                         <input type="button" class="svern_row" value="Сверн.">
                         <input type="button" class="edit_row" value="Ред.">
@@ -82,19 +82,23 @@ function work_table() {
             its.addClass('zoom')
         } else if (!its.hasClass('zoom_in')) {
             its.addClass('zoom_in');
-            its.find('.data').html(its.find('.data_edit').val());
+            its.find('.data').html(its.find('textarea').val());
+        } else if (its.hasClass('zoom_in')) {
+            its.removeClass('zoom_in');
+            its.find('.data').html('>'+its.find('textarea').val().split('\n')[0]);
         }
+    })
+
+    $('.save_row').on('click', function () {
+        bd[$(this).closest('tr').index()-1][0] = simpleCrypto.encrypt($(this).closest('tr').find('textarea').val());
+        localStorage.setItem('data', JSON.stringify(bd));
+        alert ('Сохраненно!')
     })
 
     $('.edit_row').on('click', function () {
         $(this).closest('td').children('.data_edit').toggle();
-        $(this).closest('td').children('.data').html($(this).closest('td').children('.data_edit').val());
+        $(this).closest('td').children('.data').html($(this).closest('td').children('textarea').val());
     })
-
-    $('#new_row span').on('click', function () {
-        $('#new_row div').append(`<textarea></textarea>`)
-    })
-
         
     $('.svern_row').on('click', function () {
         table_e_data(bd)
@@ -158,7 +162,8 @@ function work_table() {
 $('#upload_table').on('click', () => {
     let mass_ = [];
     $.each($('#table textarea'), function (arr_index, arr_value) {
-        if ($(arr_value).val() != '') mass_.push(simpleCrypto.encrypt($(arr_value).val()));
+        console.log('$(arr_value).val() - '+$(arr_value).val())
+        if ($(arr_value).val() != '') mass_.push (simpleCrypto.encrypt($(arr_value).val()));
     })
     var mass = { 'data': mass_ };
 
