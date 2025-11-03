@@ -1,0 +1,350 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 40px);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.load-own-btn {
+    align-self: flex-start;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    background-color: #909090;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.load-own-btn:hover {
+    background-color: #373737;
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 30px;
+}
+
+.center-area {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.fields-container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: auto;
+}
+
+.field {
+    width: 30%;
+    min-width: 200px;
+    height: 200px;
+    border: 2px solid #333;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    position: relative;
+}
+
+.green-field {
+    background-color: #d4edda;
+    border-color: #28a745;
+}
+
+.green-field:hover {
+    background-color: #c3e6cb;
+}
+
+.blue-field {
+    background-color: #d1ecf1;
+    border-color: #17a2b8;
+}
+
+.blue-field:hover {
+    background-color: #bee5eb;
+}
+
+.yellow-field {
+    background-color: #fff3cd;
+    border-color: #ffc107;
+}
+
+.yellow-field:hover {
+    background-color: #faeaa9;
+}
+
+.cards-container {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: relative;
+    overflow: auto;
+    padding: 5px;
+}
+
+.card {
+    width: 103px;
+    height: 160px;
+    margin: 0px auto 2px;
+    perspective: 1000px;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-shrink: 0;
+}
+
+.card.zoomed {
+    transform: scale(0.8);
+}
+
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+}
+
+.card.flipped .card-inner {
+    transform: rotateY(180deg);
+}
+
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    font-size: 14px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.card-front {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    color: #333;
+}
+
+.card-back {
+    background-color: #333;
+    color: #fff;
+    transform: rotateY(180deg);
+}
+
+.card-count {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+#activeCard {
+    cursor: pointer;
+    margin: 0 auto;
+        zoom: 2;
+}
+
+/* ÃÅ“ÃÂ¾ÃÂ±ÃÂ¸ÃÂ»Ã‘Å’ÃÂ½ÃÂ°Ã‘Â ÃÂ²ÃÂµÃ‘â‚¬Ã‘ÂÃÂ¸Ã‘Â */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+        min-height: calc(100vh - 20px);
+    }
+    
+    .fields-container {
+        flex-direction: row;
+        justify-content: space-around;
+        height: 200px;
+    }
+    
+    .field {
+        width: 30%;
+        min-width: 100px;
+        height: 180px;
+        margin: 5px;
+    }
+    
+    .card {
+        width: 80px;
+        height: 110px;
+        /* margin: 0px auto 2px; */
+    }
+    
+    .card-front, .card-back {
+        font-size: 10px;
+        padding: 5px;
+    }
+    
+    .card-count {
+        font-size: 10px;
+        width: 20px;
+        height: 20px;
+    }
+
+    .modal-content {
+    width: 85%!important;
+    }
+}
+
+@media (max-width: 480px) {
+    .fields-container {
+        height: auto;
+    }
+    
+    .field {
+        width: 33%;
+        height: 150px;
+        margin: 5px;
+    }
+    
+    .card {
+        width: 70px;
+        height: 100px;
+        margin: -25px auto 0;
+    }
+    
+    .center-area {
+        min-height: 200px;
+    }
+}
+
+.str {
+    width: 30%;
+    height: 50px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.fields-container-str {
+    justify-content: space-around;
+    display: flex;
+}
+
+.str svg {
+    height: 100%;
+}
+
+#greenFieldStr {
+    border: 1px solid #28a745;
+}
+
+#blueFieldStr {
+    border: 1px solid #17a2b8;
+}
+
+#yellowFieldStr {
+    border: 1px solid #ffc107;
+}
+
+.up-strelka{
+    transform: rotateX(180deg);
+    transform-origin: center;
+    transition: .6s;
+}
+
+.down-strelka{
+    transform: rotateX(0deg);
+}
+
+/* Ð¡Ñ‚Ð¸Ð»Ð¸ Ð´Ð»Ñ Ð²ÑÐ¿Ð»Ñ‹Ð²Ð°ÑŽÑ‰ÐµÐ³Ð¾ Ð¾ÐºÐ½Ð° */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 60%;
+    border-radius: 10px;
+    position: relative;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+}
+
+#questionsInput {
+    width: 100%;
+    height: 200px;
+    margin: 20px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: vertical;
+    box-sizing: border-box;
+}
+
+.save-btn {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.save-btn:hover {
+    background-color: #218838;
+}
