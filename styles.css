@@ -51,10 +51,13 @@ h1 {
     justify-content: space-around;
     margin-top: auto;
 }
-
+@media (min-width: 1200px) {
 .field {
-    width: 30%;
-    min-width: 200px;
+    width: 356px!important;
+}
+}
+.field {
+    width: 30%; /* Фиксированная ширина вместо процентов */
     height: 200px;
     border: 2px solid #333;
     border-radius: 10px;
@@ -195,10 +198,11 @@ h1 {
         flex-direction: row;
         justify-content: space-around;
         height: 200px;
+        width: 100%; /* Убираем фиксированную ширину для мобильной версии */
     }
     
     .field {
-        width: 30%;
+        width: 30%; /* Возвращаем проценты для мобильной версии */
         min-width: 100px;
         height: 180px;
         margin: 5px;
@@ -229,10 +233,11 @@ h1 {
 @media (max-width: 480px) {
     .fields-container {
         height: auto;
+        width: 100%; /* Убираем фиксированную ширину для маленьких экранов */
     }
     
     .field {
-        width: 33%;
+        width: 45%; /* Уменьшаем ширину полей для маленьких экранов */
         height: 150px;
         margin: 5px;
     }
