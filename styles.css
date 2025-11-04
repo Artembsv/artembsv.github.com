@@ -253,6 +253,7 @@ h1 {
         /* Уменьшаем ширину полей для маленьких экранов */
         height: 150px;
         margin: 5px;
+        min-width: 80px;
     }
 
     .card {
@@ -369,4 +370,16 @@ h1 {
 
 .save-btn:hover {
     background-color: #218838;
+}
+
+@media (max-width: 380px) {
+    .field {
+        min-width: 20px;
+        margin: 5px 1px;
+        padding: 5px 7px;
+    }
+
+    body {
+        padding: 1px;
+    }
 }
