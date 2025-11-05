@@ -16,6 +16,7 @@ body {
     flex-direction: column;
     flex: 1;
     position: relative;
+    min-height: calc(100vh - 20px);
 }
 
 .load-own-btn {
@@ -383,4 +384,9 @@ h1 {
     body {
         padding: 1px;
     }
+}
+
+.answer {
+    margin-left: 15px;
+    color: #198296;
 }

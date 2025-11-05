@@ -1,14 +1,19 @@
+// Функция для парсинга вопросов и ответов из HTML
+function parseCardsFromHTML() {
+    const qaItems = document.querySelectorAll('#seo-qa-data .qa-item');
+    const cards = [];
+    
+    qaItems.forEach(item => {
+        const question = item.querySelector('.question').textContent;
+        const answer = item.querySelector('.answer').textContent;
+        cards.push({ question, answer });
+    });
+    
+    return cards;
+}
+
 // Массив карточек с вопросами и ответами
-const cards = [
-    { question: "Столица Франции?", answer: "Париж" },
-    { question: "Сколько будет 2+2?", answer: "4" },
-    { question: "Какой газ необходим для дыхания?", answer: "Кислород" },
-    { question: "Самая большая планета в Солнечной системе?", answer: "Юпитер" },
-    { question: "Сколько дней в году?", answer: "365" },
-    { question: "Кто написал 'Война и мир'?", answer: "Лев Толстой" },
-    { question: "Какой элемент обозначается символом O?", answer: "Кислород" },
-    { question: "Сколько цветов в радуге?", answer: "7" }
-];
+const cards = parseCardsFromHTML();
 
 // Инициализация состояния приложения
 let gameState = {
