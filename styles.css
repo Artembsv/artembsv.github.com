@@ -119,7 +119,7 @@ h1 {
 }
 
 .card {
-    width: 103px;
+    width: 113px;
     height: 160px;
     margin: 0px auto 2px;
     perspective: 1000px;
@@ -159,7 +159,9 @@ h1 {
     padding: 10px;
     box-sizing: border-box;
     word-wrap: break-word;
+    word-break: break-word;
     font-size: 14px;
+    line-height: 1.3;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -167,12 +169,16 @@ h1 {
     background-color: #fff;
     border: 1px solid #ddd;
     color: #333;
+    overflow-wrap: break-word;
+    hyphens: auto;
 }
 
 .card-back {
     background-color: #333;
     color: #fff;
     transform: rotateY(180deg);
+    overflow-wrap: break-word;
+    hyphens: auto;
 }
 
 .card-count {
@@ -195,6 +201,8 @@ h1 {
     cursor: pointer;
     margin: 0 auto;
     zoom: 2;
+    min-width: 200px;
+    min-height: 250px;
 }
 
 /* ÃƒÂÃ…â€œÃƒÂÃ‚Â¾ÃƒÂÃ‚Â±ÃƒÂÃ‚Â¸ÃƒÂÃ‚Â»Ãƒâ€˜Ã…â€™ÃƒÂÃ‚Â½ÃƒÂÃ‚Â°Ãƒâ€˜Ã‚Â ÃƒÂÃ‚Â²ÃƒÂÃ‚ÂµÃƒâ€˜Ã¢â€šÂ¬Ãƒâ€˜Ã‚ÂÃƒÂÃ‚Â¸Ãƒâ€˜Ã‚Â */
@@ -221,8 +229,8 @@ h1 {
     }
 
     .card {
-        width: 80px;
-        height: 110px;
+        width: 90px;
+        height: 120px;
         /* margin: 0px auto 2px; */
     }
 
@@ -230,6 +238,7 @@ h1 {
     .card-back {
         font-size: 10px;
         padding: 5px;
+        line-height: 1.2;
     }
 
     .card-count {
@@ -259,8 +268,8 @@ h1 {
     }
 
     .card {
-        width: 70px;
-        height: 100px;
+        width: 85px;
+        height: 115px;
         margin: -25px auto 0;
     }
 

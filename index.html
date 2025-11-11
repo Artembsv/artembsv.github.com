@@ -84,7 +84,8 @@
         <div class="modal-content">
             <span class="close">&times;</span>
             <h2>Загрузить свои вопросы</h2>
-            <textarea id="questionsInput" placeholder="Введите вопросы и ответы в формате:&#10;вопрос;ответ&#10;вопрос;ответ&#10;и т.д."></textarea>
+            <textarea id="questionsInput"
+                placeholder="Введите вопросы и ответы в формате:&#10;вопрос;ответ&#10;вопрос;ответ&#10;и т.д."></textarea>
             <button id="saveQuestionsBtn" class="save-btn">Сохранить</button>
         </div>
     </div>
@@ -93,37 +94,135 @@
     <div id="seo-qa-data">
         <h3>Используемые вопросы и ответы</h3>
         <div class="qa-item">
-            <div class="question">Столица Франции?</div>
-            <div class="answer">Париж</div>
+            <div class="question">Что такое React?</div>
+            <div class="answer">Реакт - это JavaScript библиотека для построения пользовательских интерфейсов на основе
+                компонентного подхода.</div>
         </div>
+
         <div class="qa-item">
-            <div class="question">Сколько будет 2+2?</div>
-            <div class="answer">4</div>
+            <div class="question">Что такое компонент в React?</div>
+            <div class="answer">Компонент - это повторно используемый, самостоятельный косок UI, который ответствен за
+                часть интерфейса.</div>
         </div>
+
         <div class="qa-item">
-            <div class="question">Какой газ необходим для дыхания?</div>
-            <div class="answer">Кислород</div>
+            <div class="question">Что такое JSX?</div>
+            <div class="answer">JSX - это синтаксис, который позволяет писать HTML-подобный код внутри JavaScript. React
+                преобразует JSX в вызовы функций.</div>
         </div>
+
         <div class="qa-item">
-            <div class="question">Самая большая планета в Солнечной системе?</div>
-            <div class="answer">Юпитер</div>
+            <div class="question">Как создать компонент на React?</div>
+            <div class="answer">Компонент можно создать как JavaScript функцию, возвращающую JSX, или как класс,
+                наследующий от React.Component.</div>
         </div>
+
         <div class="qa-item">
-            <div class="question">Сколько дней в году?</div>
-            <div class="answer">365</div>
+            <div class="question">Что такое Props (пропсы)?</div>
+            <div class="answer">Props - это параметры, передаваемые компоненту, они позволяют передавать данные от
+                родителя к дочерним компонентам.</div>
         </div>
+
         <div class="qa-item">
-            <div class="question">Кто написал 'Война и мир'?</div>
-            <div class="answer">Лев Толстой</div>
+            <div class="question">Что такое State (состояние)?</div>
+            <div class="answer">State - это данные компонента, которые могут изменяться на протяжении работы приложения.
+            </div>
         </div>
+
         <div class="qa-item">
-            <div class="question">Какой элемент обозначается символом O?</div>
-            <div class="answer">Кислород</div>
+            <div class="question">Как обновить состояние компонента?</div>
+            <div class="answer">Для обновления состояния используется метод setState() для классов или Hook useState()
+                для функциональных компонентов.</div>
         </div>
+
         <div class="qa-item">
-            <div class="question">Сколько цветов в радуге?</div>
-            <div class="answer">7</div>
+            <div class="question">Что такое методы безопасности в React?</div>
+            <div class="answer">Методы безопасности позволяют убеждаться, что элементы добавляются безопасно а не
+                подвергаются XSS атакам.</div>
         </div>
+
+        <div class="qa-item">
+            <div class="question">Что такое React Hook?</div>
+            <div class="answer">Hooks - это функции, которые позволяют обращаться к состоянию и другим возможностям
+                React в функциональных компонентах.</div>
+        </div>
+
+        <div class="qa-item">
+            <div class="question">Как обновить каталог React во время рендеринга?</div>
+            <div class="answer">useEffect Hook - это основной механизм для обновления компонентов в функциональных
+                компонентах.</div>
+        </div>
+
+        <div class="qa-item">
+            <div class="question">На чым равна принцип неизменяемости (immutability) в React?</div>
+            <div class="answer">React автоматически обновляет компоненты только когда новое состояние отличается в
+                референция.</div>
+        </div>
+
+        <div class="qa-item">
+            <div class="question">Что такое useState Hook?</div>
+            <div class="answer">useState - это hook, который позволяет добавить состояние в функциональные компоненты.
+            </div>
+        </div>
+
+        <div class="qa-item">
+            <div class="question">Что такое useEffect Hook?</div>
+            <div class="answer">useEffect - это hook для выполнения сторонних эффектов (фетч данных, поднарод,
+                манипуляции DOM).</div>
+        </div>
+
+        <div class="qa-item">
+            <div class="question">Что такое Context API в React?</div>
+            <div class="answer">Context API - это API для обсуждения данных глубо в дереве компонентов.</div>
+        </div>
+
+        <div class="qa-item">
+            <div class="question">Что такое useContext Hook?</div>
+            <div class="answer">useContext - это hook для использования данных из Context внутри функциональных
+                компонентов.</div>
+        </div>
+
+        <div class="qa-item">
+            <div class="question">На чым разница между Props и State?</div>
+            <div class="answer">Props относятся к данным, переданным в компонент, а State - отражает актуальное
+                состояние компонента.</div>
+        </div>
+
+        <div class="qa-item">
+            <div class="question">Как оптимизировать React приложение?</div>
+            <div class="answer">Ленивый рендеринг, memo, useMemo, useCallback, code splitting, загружаются только когда
+                нужны.</div>
+        </div>
+
+        <div class="qa-item">
+            <div class="question">Что нужно при обновлении DOM элементов в списке?</div>
+            <div class="answer">Для врения списков важно использовать уникальные ключи (keys), чтобы React мог обновить
+                элементы надлежащим образом.</div>
+        </div>
+
+        <div class="qa-item">
+            <div class="question">Что такое useReducer Hook?</div>
+            <div class="answer">useReducer - это hook для организации сложных состояний по функцию редюсера.</div>
+        </div>
+
+        <div class="qa-item">
+            <div class="question">Как работает реконцилиация DOM?</div>
+            <div class="answer">На каждом рендеринге React сравнивает виртуальные DOM и правильный DOM, обновляя только
+                разницы.</div>
+        </div>
+
+        <div class="qa-item">
+            <div class="question">Что такое Forward Ref?</div>
+            <div class="answer">Forward Ref - это техника для предоставления референций на DOM-элементы в функциональные
+                компоненты.</div>
+        </div>
+
+        <div class="qa-item">
+            <div class="question">Как высшие компоненты используются в React?</div>
+            <div class="answer">Высшие компоненты снимают данные, логику или поведение между несколькими компонентами.
+            </div>
+        </div>
+
     </div>
 
     <script src="script.js"></script>
