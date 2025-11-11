@@ -130,7 +130,7 @@ h1 {
 }
 
 .card.zoomed {
-    transform: scale(0.8);
+    /* transform: scale(0.8); */
 }
 
 .card-inner {
@@ -186,8 +186,8 @@ h1 {
     top: 0px;
     left: 0px;
     z-index: 1;
-    background-color: rgb(223 223 223);
-    border-radius: 8px 0 0 0;
+    background-color: rgb(217 217 217 / 45%);
+    border-radius: 8px 0 8px 0;
     width: 25px;
     height: 25px;
     display: flex;
@@ -202,7 +202,7 @@ h1 {
     margin: 0 auto;
     zoom: 2;
     min-width: 200px;
-    min-height: 250px;
+    /* min-height: 250px; */
 }
 
 /* ÃƒÂÃ…â€œÃƒÂÃ‚Â¾ÃƒÂÃ‚Â±ÃƒÂÃ‚Â¸ÃƒÂÃ‚Â»Ãƒâ€˜Ã…â€™ÃƒÂÃ‚Â½ÃƒÂÃ‚Â°Ãƒâ€˜Ã‚Â ÃƒÂÃ‚Â²ÃƒÂÃ‚ÂµÃƒâ€˜Ã¢â€šÂ¬Ãƒâ€˜Ã‚ÂÃƒÂÃ‚Â¸Ãƒâ€˜Ã‚Â */
@@ -287,6 +287,8 @@ h1 {
     height: 50px;
     border-radius: 10px;
     cursor: pointer;
+    transition: .1s;
+    background: #f4f4f4;
 }
 
 .fields-container-str {
@@ -397,5 +399,9 @@ h1 {
 
 .answer {
     margin-left: 15px;
-    color: #198296;
+    color: #9a8542;
+}
+
+.str:hover {
+    background: #e0e0e0;
 }
