@@ -129,10 +129,6 @@ h1 {
     flex-shrink: 0;
 }
 
-.card.zoomed {
-    /* transform: scale(0.8); */
-}
-
 .card-inner {
     position: relative;
     width: 100%;

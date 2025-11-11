@@ -49,11 +49,6 @@ function updateFieldDisplay(fieldId, cardsArray, fieldArrayName) {
         const cardElement = document.createElement('div');
         cardElement.className = 'card';
         
-        // Добавляем класс zoomed для уменьшения карточек при большом количестве
-        if (cardsArray.length > 10) {
-            cardElement.classList.add('zoomed');
-        }
-        
         cardElement.innerHTML = `
             <div class="card-inner">
                 <div class="card-front">
